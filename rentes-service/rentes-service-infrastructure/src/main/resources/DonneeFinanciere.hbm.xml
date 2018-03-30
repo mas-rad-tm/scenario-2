@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+
+    <class name="ch.globaz.tmmas.rentesservice.domain.model.droit.DonneesFinancieres" table="donneesFinanciere"
+           schema="rentes" mutable="true">
+
+        <id name="id" column="id">
+            <generator class="org.hibernate.id.IdentityGenerator"/>
+        </id>
+
+
+        <property name="montantDonnees" column="montantDonnees" not-null="true"/>
+
+        <property name="libelle" column="libelle" not-null="false"/>
+
+        <property name="type" column="status" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">ch.globaz.tmmas.rentesservice.domain.model.droit.DonneesFinancieresType</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+
+    </class>
+
+</hibernate-mapping>
