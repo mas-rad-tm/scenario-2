@@ -1,5 +1,7 @@
 package ch.globaz.tmmas.rentesservice.application.api.web.resources;
 
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceAttributes;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceObject;
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.LocalDateDeserializer;
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.LocalDateSerializer;
 import ch.globaz.tmmas.rentesservice.domain.model.droit.DonneesFinancieres;
@@ -22,7 +24,7 @@ import static ch.globaz.tmmas.rentesservice.application.api.web.resources.locald
  * Ressources REST pour les dossiers
  */
 @Getter
-public class DroitResource extends ResourceSupport{
+public class DroitResourceAttributes implements ResourceAttributes{
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
@@ -48,47 +50,22 @@ public class DroitResource extends ResourceSupport{
 
 
 
-	public DroitResource(){}
+	public DroitResourceAttributes(){}
 
 
-	private DroitResource(DroitResourceBuilder builder){
+	public DroitResourceAttributes(Droit droit){
 
-		this.identifiant = builder.identifiant;
-		this.technicalId = builder.technicalId;
-		this.status = builder.status;
-		this.dateDebutDroit = builder.dateDebutDroit;
-		this.dateFinDroit = builder.dateFinDroit;
-		this.dossierId = builder.dossierId;
+		this.identifiant = droit.getIdentifiant().identifiant();
+		this.technicalId = droit.getId();
+		this.status = droit.getStatus();
+		this.dateDebutDroit = droit.getDateDebutDroit();
+		this.dateFinDroit = droit.getDateFinDroit();
+		this.dossierId = droit.getDossier().getId();
+	}
+
+	public ResourceObject buildResourceObject () {
+		return new ResourceObject(this.getTechnicalId(),"droit",this);
 	}
 
 
-	public static class DroitResourceBuilder {
-
-		private String identifiant;
-		private Long technicalId;
-		private LocalDate dateDebutDroit;
-		private DroitStatus status;
-		private LocalDate dateFinDroit;
-		private Long dossierId;
-
-		public DroitResourceBuilder (Droit droit){
-			this.identifiant = droit.getIdentifiant().identifiant();
-			this.technicalId = droit.getId();
-			this.status = droit.getStatus();
-			this.dateDebutDroit = droit.getDateDebutDroit();
-			this.dateFinDroit = droit.getDateFinDroit();
-			this.dossierId = droit.getDossier().getId();
-		}
-
-
-		public DroitResourceBuilder dateFinDroit(LocalDate dateFinDroit){
-			this.dateFinDroit = dateFinDroit;
-			return this;
-		}
-
-		public DroitResource build () {
-			return new DroitResource(this);
-		}
-
-	}
 }

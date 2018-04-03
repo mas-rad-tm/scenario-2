@@ -15,7 +15,7 @@
     <!-- ****** artifact description ****** -->
     <artifactId>rentes-service-infrastructure</artifactId>
     <packaging>jar</packaging>
-    <name>rentes-service</name>
+    <name>rentes-service-infrastructure</name>
     <description>Module infrastructure pour le service des rentes</description>
 
 

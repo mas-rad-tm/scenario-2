@@ -1,6 +1,6 @@
 package ch.globaz.tmmas.rentesservice.application.service.impl;
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResourceAttributes;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
@@ -26,11 +26,11 @@ public class DroitServiceImpl implements DroitService{
 
     @Transactional
     @Override
-    public List<DroitResource> getByIdDossier(Long id) {
+    public List<DroitResourceAttributes> getByIdDossier(Long id) {
 
         return droitRepository.getDroitByIdDossier(id).stream().map(droit -> {
 
-            return new DroitResource.DroitResourceBuilder(droit).build();
+            return new DroitResourceAttributes(droit);
         })
                 .collect(Collectors.toList());
 
@@ -40,7 +40,7 @@ public class DroitServiceImpl implements DroitService{
 
     @Transactional
     @Override
-    public DroitResource creerDroit(Long dossierId, CreerDroitCommand command) {
+    public DroitResourceAttributes creerDroit(Long dossierId, CreerDroitCommand command) {
 
         Optional<Dossier> optionalFossier = dossierRepository.dossierById(dossierId);
         Dossier dossier = optionalFossier.get();
@@ -50,21 +50,20 @@ public class DroitServiceImpl implements DroitService{
         droitRepository.initieDroit(droit);
 
 
-        return new DroitResource.DroitResourceBuilder(droit).build();
+        return new DroitResourceAttributes(droit);
 
     }
 
     @Transactional
     @Override
-    public Optional<DroitResource> getById(Long dossierId, Long droitId) {
+    public Optional<DroitResourceAttributes> getById(Long dossierId, Long droitId) {
 
         Optional<Dossier> optionalFossier = dossierRepository.dossierById(dossierId);
         Dossier dossier = optionalFossier.get();
 
         return droitRepository.getDroitById(droitId).map(droit -> {
 
-            DroitResource res =  new DroitResource.DroitResourceBuilder(droit)
-                   .build();
+            DroitResourceAttributes res =  new DroitResourceAttributes(droit);
 
             return Optional.of(res);
 

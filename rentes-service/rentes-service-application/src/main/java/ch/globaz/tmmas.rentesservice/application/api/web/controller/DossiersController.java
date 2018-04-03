@@ -1,9 +1,11 @@
 package ch.globaz.tmmas.rentesservice.application.api.web.controller;
 
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.ApiError;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResource;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.*;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ErrorResponseResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceObject;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResponseCollectionResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResponseResource;
 import ch.globaz.tmmas.rentesservice.application.event.InternalCommandPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
@@ -59,11 +61,11 @@ class DossiersController {
 
 		commandPublisher.publishCommand(command);
 
-		DossierResource dossierResource = dossierService.creerDossier(command);
+		ResourceObject dossierResource = new DossierResourceAttributes(dossierService.creerDossier(command)).buildResourceObject();
 
 		putSelfLink(dossierResource);
 
-		return new ResponseEntity<>(dossierResource, putLocationHeader(dossierResource), HttpStatus.CREATED);
+		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
 
 	}
 
@@ -75,18 +77,19 @@ class DossiersController {
 
 		commandPublisher.publishCommand(validerDossierCommand);
 
-		Optional<DossierResource> optionnalDossier = dossierService.validerDossier(validerDossierCommand,dossierId);
+		Optional<DossierResourceAttributes> optionnalDossier = dossierService.validerDossier(validerDossierCommand,dossierId);
 
 		if(optionnalDossier.isPresent()){
 
-			DossierResource dossierResource = optionnalDossier.get();
-			putSelfLink(dossierResource);
+			DossierResourceAttributes dossierResourceAttributes = optionnalDossier.get();
+			ResourceObject res = dossierResourceAttributes.buildResourceObject();
+			putSelfLink(res);
 
-			return new ResponseEntity<>(dossierResource,  HttpStatus.OK);
+			return new ResponseEntity<>(new ResponseResource(res),  HttpStatus.OK);
 
 		}
 
-		return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND,"No entity found with id " +
+		return new ResponseEntity<>(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " +
 				dossierId), HttpStatus.NOT_FOUND);
 
 	}
@@ -100,18 +103,19 @@ class DossiersController {
 
 		commandPublisher.publishCommand(cloreDossierCommand);
 
-		Optional<DossierResource> optionnalDossier = dossierService.cloreDossier(cloreDossierCommand,dossierId);
+		Optional<DossierResourceAttributes> optionnalDossier = dossierService.cloreDossier(cloreDossierCommand,dossierId);
 
 		if(optionnalDossier.isPresent()){
 
-			DossierResource dossierResource = optionnalDossier.get();
-			putSelfLink(dossierResource);
+			DossierResourceAttributes dossierResourceAttributes = optionnalDossier.get();
+			ResourceObject res = dossierResourceAttributes.buildResourceObject();
+			putSelfLink(res);
 
-			return new ResponseEntity<>(dossierResource,  HttpStatus.OK);
+			return new ResponseEntity<>(new ResponseResource(res),  HttpStatus.OK);
 
 		}
 
-		return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND,"No entity found with id " +
+		return new ResponseEntity<>(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " +
 				dossierId), HttpStatus.NOT_FOUND);
 
 	}
@@ -119,13 +123,17 @@ class DossiersController {
 
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<DossierResource>> allDossiers(){
+	public ResponseEntity allDossiers(){
 
-		List<DossierResource> dossiersResource = dossierService.getAll();
+		List<DossierResourceAttributes> dossiersResource = dossierService.getAll();
 
-		dossiersResource.stream().forEach(this::putSelfLink);
+		List<ResourceObject> list = dossiersResource.stream().map(dossierResourceAttributes -> {
+			ResourceObject resourceObject =  dossierResourceAttributes.buildResourceObject();
+			putSelfLink(resourceObject);
+			return resourceObject;
+		}).collect(Collectors.toList());
 
-		return new ResponseEntity<>(dossiersResource, HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseCollectionResource(list), HttpStatus.OK);
 	}
 
 
@@ -138,11 +146,14 @@ class DossiersController {
 		return dossierService.getById(dossierId)
 				.map(dossier -> {
 
-					putSelfLink(dossier);
-					LOGGER.debug("getDossierById() return  {}",dossier);
-					return new ResponseEntity<>(dossier, HttpStatus.OK);
+					ResourceObject res = new DossierResourceAttributes(dossier).buildResourceObject();
+					putSelfLink(res);
 
-				}).orElseGet(() -> new ResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"No entity found with id " + dossierId)
+
+					LOGGER.debug("getDossierById() return  {}",dossier);
+					return new ResponseEntity<>(new ResponseResource(res), HttpStatus.OK);
+
+				}).orElseGet(() -> new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " + dossierId)
                 , HttpStatus.NOT_FOUND));
 
 
@@ -153,7 +164,7 @@ class DossiersController {
 
 
 
-	private DossierResource putSelfLink(DossierResource dossierResource) {
+	private void putSelfLink(ResourceObject dossierResource) {
 
 		dossierResource.add(linkTo(methodOn(
 					DossiersController.class).dossierById(dossierResource.getTechnicalId()))
@@ -168,10 +179,9 @@ class DossiersController {
 				.withRel(CLORE_PATH));
 
 
-		return dossierResource;
 	}
 
-	private HttpHeaders putLocationHeader(DossierResource dossierResource) {
+	private HttpHeaders putLocationHeader(ResourceObject dossierResource) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(new UriTemplate(DOSSIER).expand(dossierResource.getTechnicalId()));
 		return headers;

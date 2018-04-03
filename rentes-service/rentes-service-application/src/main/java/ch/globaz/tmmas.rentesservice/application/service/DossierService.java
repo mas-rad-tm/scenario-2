@@ -1,12 +1,11 @@
 package ch.globaz.tmmas.rentesservice.application.service;
 
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResource;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
 import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 
 
 import java.util.List;
@@ -15,15 +14,15 @@ import java.util.Optional;
 public interface DossierService {
 
 
-	List<DossierResource> getAll();
+	List<DossierResourceAttributes> getAll();
 
-    Optional<DossierResource> getById(Long id);
+    Optional<Dossier> getById(Long id);
 
-	DossierResource creerDossier(CreerDossierCommand command);
+	Dossier creerDossier(CreerDossierCommand command);
 
-	Optional<DossierResource> validerDossier(ValiderDossierCommand command, Long dossierId);
+	Optional<DossierResourceAttributes> validerDossier(ValiderDossierCommand command, Long dossierId);
 
-	Optional<DossierResource> cloreDossier(CloreDossierCommand command, Long dossierId);
+	Optional<DossierResourceAttributes> cloreDossier(CloreDossierCommand command, Long dossierId);
 
 
 }

@@ -1,12 +1,10 @@
 package ch.globaz.tmmas.rentesservice.application.service.impl;
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResource;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
 import ch.globaz.tmmas.rentesservice.application.event.impl.DomainEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.common.specification.Specification;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierClotEvent;
@@ -14,7 +12,6 @@ import ch.globaz.tmmas.rentesservice.domain.event.DossierCreeEvent;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierValideeEvent;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.DossierStatus;
-import ch.globaz.tmmas.rentesservice.domain.model.droit.Droit;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateCloturePlusRecenteDateValidation;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateValidationPlusRecenteDateEnregistrement;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespond;
@@ -39,34 +36,24 @@ public class DossierServiceImpl implements DossierService {
 
 	@Transactional
 	@Override
-	public List<DossierResource> getAll() {
+	public List<DossierResourceAttributes> getAll() {
 		List<Dossier> dossiers =  repository.allDossiers();
 
-		return dossiers.stream().map(dossier -> new DossierResource.DossierResourceBuilder(dossier)
-                .dateValidation(dossier.getDateValidation())
-                .dateCloture(dossier.getDateCloture()).build()).collect(Collectors.toList());
+		return dossiers.stream().map(dossier -> new DossierResourceAttributes(dossier)).collect(Collectors.toList());
 
 	}
 
 	@Transactional
 	@Override
-	public Optional<DossierResource> getById(Long id) {
+	public Optional<Dossier> getById(Long id) {
 
-		 return repository.dossierById(id).map(dossier -> {
-
-		 	DossierResource res =  new DossierResource.DossierResourceBuilder(dossier)
-					.dateValidation(dossier.getDateValidation())
-					.dateCloture(dossier.getDateCloture()).build();
-
-		 	return Optional.of(res);
-
-		}).orElseGet(Optional::empty);
+		 return repository.dossierById(id).map(Optional::of).orElseGet(Optional::empty);
 
 	}
 
 	@Transactional
 	@Override
-	public DossierResource creerDossier(CreerDossierCommand command) {
+	public Dossier creerDossier(CreerDossierCommand command) {
 
 		Dossier dossier = Dossier.builder(command);
 
@@ -74,13 +61,13 @@ public class DossierServiceImpl implements DossierService {
 
 		eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
 
-		return new DossierResource.DossierResourceBuilder(dossier).build();
+		return dossier;
 
 	}
 
 	@Transactional
 	@Override
-	public Optional<DossierResource> validerDossier(ValiderDossierCommand command, Long dossierId) {
+	public Optional<DossierResourceAttributes> validerDossier(ValiderDossierCommand command, Long dossierId) {
 
 		Specification spec = new DateValidationPlusRecenteDateEnregistrement(command.getDateValidation())
 				.and(new StatusDossierCorrespond(DossierStatus.INITIE));
@@ -97,10 +84,8 @@ public class DossierServiceImpl implements DossierService {
 
 			eventPublisher.publishEvent(DossierValideeEvent.fromEntity(dossier));
 
-			DossierResource dto = new DossierResource.DossierResourceBuilder(dossier)
-					.dateValidation(command.getDateValidation()).build();
-
-			return Optional.of(dto);
+			DossierResourceAttributes resource = new DossierResourceAttributes(dossier);
+			return Optional.of(resource);
 
 		}).orElseGet(Optional::empty);
 
@@ -109,7 +94,7 @@ public class DossierServiceImpl implements DossierService {
 
 	@Transactional
 	@Override
-	public Optional<DossierResource> cloreDossier(CloreDossierCommand command, Long dossierId) {
+	public Optional<DossierResourceAttributes> cloreDossier(CloreDossierCommand command, Long dossierId) {
 
 		Specification spec = new DateCloturePlusRecenteDateValidation(command.getDateCloture())
 				.and(new StatusDossierCorrespond(DossierStatus.VALIDE));
@@ -127,11 +112,9 @@ public class DossierServiceImpl implements DossierService {
 
 			eventPublisher.publishEvent(DossierClotEvent.fromEntity(dossier));
 
-			DossierResource dto = new DossierResource.DossierResourceBuilder(dossier)
-					.dateValidation(dossier.getDateValidation())
-					.dateCloture(command.getDateCloture()).build();
+			DossierResourceAttributes resource = new DossierResourceAttributes(dossier);//.buildResourceObject();
 
-			return Optional.of(dto);
+			return Optional.of(resource);
 
 		}).orElseGet(Optional::empty);
 

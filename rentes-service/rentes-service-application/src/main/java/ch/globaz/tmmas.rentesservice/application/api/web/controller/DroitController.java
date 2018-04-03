@@ -1,12 +1,15 @@
 package ch.globaz.tmmas.rentesservice.application.api.web.controller;
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.ApiError;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResource;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ErrorResponseResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResourceAttributes;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceObject;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResponseCollectionResource;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResponseResource;
 import ch.globaz.tmmas.rentesservice.application.event.InternalCommandPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
+import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -43,18 +47,19 @@ public class DroitController {
     private static final String DROITS = "/droits";
     private static final String DROIT = DROITS + "/{id}";
 
-    @RequestMapping(value = "/{dossierId}/droits", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{dossierId}/droits", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity creerDroit(@Valid @RequestBody CreerDroitCommand command,@PathVariable Long dossierId){
 
         LOGGER.info("creerDroit pour dossier id:{}, command= {}",dossierId,command);
 
         commandPublisher.publishCommand(command);
 
-        DroitResource droitResource = droitService.creerDroit(dossierId,command);
+        ResourceObject resourceObject = droitService.creerDroit(dossierId,command).buildResourceObject();
 
-        putSelfLink(droitResource);
+        putSelfLink(dossierId,resourceObject);
+        putLocationHeader(resourceObject);
 
-        return new ResponseEntity<>(droitResource,  HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseResource(resourceObject),  HttpStatus.CREATED);
 
     }
 
@@ -64,11 +69,15 @@ public class DroitController {
         LOGGER.debug("droitsByDossierId(), {}",dossierId);
 
 
-        List<DroitResource> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
+        List<DroitResourceAttributes> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
 
-        droitRessource.stream().forEach(this::putSelfLink);
+        List<ResourceObject> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
+            ResourceObject resourceObject = droitResourceAttributes.buildResourceObject();
+            putSelfLink(dossierId,resourceObject);
+            return resourceObject;
+        }).collect(Collectors.toList());
 
-        return new ResponseEntity<>(droitRessource, HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseCollectionResource(droitsResourceObject), HttpStatus.OK);
 
     }
 
@@ -77,25 +86,34 @@ public class DroitController {
 
         LOGGER.debug("droitsById(), {}",dossierId);
 
+        Optional<Dossier> dossier = dossierService.getById(dossierId);
 
-        return droitService.getById(dossierId,droitId)
-                .map(droit -> {
+        if(dossier.isPresent()){
+            return droitService.getById(dossierId,droitId)
+                    .map(droit -> {
+                        ResourceObject resourceObject = droit.buildResourceObject();
 
-            putSelfLink(droit);
-            LOGGER.debug("geDroitById() return  {}",droit);
-            return new ResponseEntity<>(droit, HttpStatus.OK);
+                        putSelfLink(dossierId,resourceObject);
+                        LOGGER.debug("geDroitById() return  {}",droit);
+                        return new ResponseEntity<>(new ResponseResource(resourceObject), HttpStatus.OK);
 
-        }).orElseGet(() ->
+                    }).orElseGet(() ->
 
-            new ResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"No entity found with id "
-                + droitId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND));
+                            new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id "
+                                    + droitId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND));
+        }else{
+            return new ResponseEntity<>(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id "
+                    + droitId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND);
+        }
+
+
 
     }
 
-    private DroitResource putSelfLink(DroitResource droitResource) {
+    private void putSelfLink(Long dossierId, ResourceObject resourceObject) {
 
-        droitResource.add(linkTo(methodOn(
-                DossiersController.class).dossierById(droitResource.getTechnicalId()))
+        resourceObject.add(linkTo(methodOn(
+                DroitController.class).droitById(dossierId,resourceObject.getTechnicalId()))
                 .withSelfRel());
 
         /*
@@ -108,12 +126,12 @@ public class DroitController {
                 .withRel(CLORE_PATH));
         */
 
-        return droitResource;
+
     }
 
-    private HttpHeaders putLocationHeader(DossierResource dossierResource) {
+    private HttpHeaders putLocationHeader(ResourceObject resourceObject) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new UriTemplate(DROIT).expand(dossierResource.getTechnicalId()));
+        headers.setLocation(new UriTemplate(DROIT).expand(resourceObject.getTechnicalId()));
         return headers;
     }
 

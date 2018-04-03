@@ -1,7 +1,6 @@
 package ch.globaz.tmmas.rentesservice.application.api.web.exception;
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.ApiError;
-import ch.globaz.tmmas.rentesservice.application.service.impl.RegleMetiersNonSatisfaite;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ErrorResponseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -27,9 +26,9 @@ class RestControllerExceptionHandler extends ResponseEntityExceptionHandler{
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), ex.getMessage());
+        final ErrorResponseResource errorResponseResource = new ErrorResponseResource(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), ex.getMessage());
 
-        return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+        return handleExceptionInternal(ex, errorResponseResource, headers, errorResponseResource.getStatus(), request);
     }
 
     @Override
@@ -41,9 +40,9 @@ class RestControllerExceptionHandler extends ResponseEntityExceptionHandler{
 
         ex.getBindingResult().getGlobalErrors().forEach(erreur -> erreurs.add(erreur.getObjectName() + ": " + erreur.getDefaultMessage()));
 
-        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), erreurs);
+        final ErrorResponseResource errorResponseResource = new ErrorResponseResource(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), erreurs);
 
-        return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+        return handleExceptionInternal(ex, errorResponseResource, headers, errorResponseResource.getStatus(), request);
     }
 
 
