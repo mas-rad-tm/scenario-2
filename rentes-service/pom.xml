@@ -52,6 +52,15 @@
 
     </properties>
 
+    <profiles>
+        <profile>
+            <id>globaz</id>
+            <properties>
+                <db2.driver.version>4.12.55</db2.driver.version>
+            </properties>
+        </profile>
+    </profiles>
+
 
     <!-- ****** Gestion des dépendances ****** -->
     <dependencyManagement>
