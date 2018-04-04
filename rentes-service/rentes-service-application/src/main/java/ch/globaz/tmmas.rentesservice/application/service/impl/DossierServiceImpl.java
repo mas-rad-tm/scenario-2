@@ -5,6 +5,7 @@ import ch.globaz.tmmas.rentesservice.application.event.impl.DomainEventPublisher
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.common.specification.Specification;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierClotEvent;
@@ -65,11 +66,11 @@ public class DossierServiceImpl implements DossierService {
 
 	}
 
-	@Transactional
-	@Override
-	public Optional<DossierResourceAttributes> validerDossier(ValiderDossierCommand command, Long dossierId) {
 
-		Specification spec = new DateValidationPlusRecenteDateEnregistrement(command.getDateValidation())
+	private  Optional<DossierResourceAttributes> validerDossier(MiseAJourDossierCommand command, Long dossierId) {
+
+
+		Specification spec = new DateValidationPlusRecenteDateEnregistrement(command.getData().getDateValidation())
 				.and(new StatusDossierCorrespond(DossierStatus.INITIE));
 
 		return repository.dossierById(dossierId).map(dossier -> {
@@ -78,7 +79,7 @@ public class DossierServiceImpl implements DossierService {
 				throw new RegleMetiersNonSatisfaite(spec);
 			}
 
-			dossier.validerDossier(command.getDateValidation());
+			dossier.validerDossier(command.getData().getDateValidation());
 
 			repository.validerDossier(dossier);
 
@@ -92,11 +93,10 @@ public class DossierServiceImpl implements DossierService {
 
 	}
 
-	@Transactional
-	@Override
-	public Optional<DossierResourceAttributes> cloreDossier(CloreDossierCommand command, Long dossierId) {
 
-		Specification spec = new DateCloturePlusRecenteDateValidation(command.getDateCloture())
+	private Optional<DossierResourceAttributes> cloreDossier(MiseAJourDossierCommand command, Long dossierId) {
+
+		Specification spec = new DateCloturePlusRecenteDateValidation(command.getData().getDateCloture())
 				.and(new StatusDossierCorrespond(DossierStatus.VALIDE));
 
 
@@ -106,7 +106,7 @@ public class DossierServiceImpl implements DossierService {
 				throw new RegleMetiersNonSatisfaite(spec);
 			}
 
-			dossier.cloreDossier(command.getDateCloture());
+			dossier.cloreDossier(command.getData().getDateCloture());
 
 			repository.cloreDossier(dossier);
 
@@ -120,7 +120,23 @@ public class DossierServiceImpl implements DossierService {
 
 	}
 
+	@Transactional
+	@Override
+	public Optional<DossierResourceAttributes> miseAJourDossier(MiseAJourDossierCommand command, Long dossierId) {
 
+		switch (command.getAction()){
+			case VALIDER:
+				return validerDossier(command,dossierId);
+
+
+			case CLORE:
+				return cloreDossier(command,dossierId);
+
+			default:
+				throw new RuntimeException();
+		}
+
+	}
 
 
 }

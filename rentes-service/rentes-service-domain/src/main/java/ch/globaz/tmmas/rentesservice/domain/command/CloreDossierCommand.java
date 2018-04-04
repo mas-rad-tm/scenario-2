@@ -1,6 +1,7 @@
 package ch.globaz.tmmas.rentesservice.domain.command;
 
 import ch.globaz.tmmas.rentesservice.domain.common.ValueObject;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,7 +17,16 @@ public class CloreDossierCommand implements DomainCommand,ValueObject<CloreDossi
 	@NotNull
 	private LocalDate dateCloture;
 
+	@NotNull
+	private String raisonCloture;
+
 	public CloreDossierCommand(){}
+
+	public CloreDossierCommand(LocalDate dateCloture, String raisonCloture){
+		this.raisonCloture = raisonCloture;
+		this.dateCloture = dateCloture;
+	}
+
 
 	@Override
 	public boolean sameValueAs(CloreDossierCommand other) {

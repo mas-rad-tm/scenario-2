@@ -18,6 +18,10 @@ public class ValiderDossierCommand implements DomainCommand,ValueObject<ValiderD
 
 	public ValiderDossierCommand(){}
 
+	public ValiderDossierCommand(LocalDate dateValidation){
+
+	}
+
 	@Override
 	public boolean sameValueAs(ValiderDossierCommand other) {
 		return this.equals(other);

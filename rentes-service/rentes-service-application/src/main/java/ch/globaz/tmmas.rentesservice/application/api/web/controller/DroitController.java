@@ -118,7 +118,7 @@ public class DroitController {
 
         /*
         dossierResource.add(linkTo(methodOn(
-                DossiersController.class).validerDossier(dossierResource.getTechnicalId(),null))
+                DossiersController.class).miseAJourDossier(dossierResource.getTechnicalId(),null))
                 .withRel(VALIDER_PATH));
 
         dossierResource.add(linkTo(methodOn(

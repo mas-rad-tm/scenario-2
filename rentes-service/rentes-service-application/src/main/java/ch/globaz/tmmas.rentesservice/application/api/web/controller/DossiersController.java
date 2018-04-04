@@ -9,9 +9,8 @@ import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.Respon
 import ch.globaz.tmmas.rentesservice.application.event.InternalCommandPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
-import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,15 +68,19 @@ class DossiersController {
 
 	}
 
-	@RequestMapping(value = "/{dossierId}/valider", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity validerDossier(@PathVariable Long dossierId,@Valid @RequestBody ValiderDossierCommand
-			validerDossierCommand){
+	@RequestMapping(value = "/{dossierId}", method = RequestMethod.PATCH, consumes = MediaType
+			.APPLICATION_JSON_VALUE)
+	public ResponseEntity miseAJourDossier(@PathVariable Long dossierId, @Valid @RequestBody MiseAJourDossierCommand
+			majCommand){
 
-		LOGGER.info("cloreDossier(), command={}",validerDossierCommand);
+		LOGGER.info("mise ajour dossier(), command={}",majCommand);
 
-		commandPublisher.publishCommand(validerDossierCommand);
+		Optional<DossierResourceAttributes> optionnalDossier;
 
-		Optional<DossierResourceAttributes> optionnalDossier = dossierService.validerDossier(validerDossierCommand,dossierId);
+
+		commandPublisher.publishCommand(majCommand);
+
+		optionnalDossier = dossierService.miseAJourDossier(majCommand,dossierId);
 
 		if(optionnalDossier.isPresent()){
 
@@ -94,7 +97,7 @@ class DossiersController {
 
 	}
 
-
+/**
 	@RequestMapping(value = "/{dossierId}/clore", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity cloreDossier(@PathVariable Long dossierId,@Valid @RequestBody CloreDossierCommand
 			cloreDossierCommand){
@@ -121,7 +124,7 @@ class DossiersController {
 	}
 
 
-
+*/
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity allDossiers(){
 
@@ -171,11 +174,11 @@ class DossiersController {
 					.withSelfRel());
 
 		dossierResource.add(linkTo(methodOn(
-				DossiersController.class).validerDossier(dossierResource.getTechnicalId(),null))
+				DossiersController.class).miseAJourDossier(dossierResource.getTechnicalId(),null))
 				.withRel(VALIDER_PATH));
 
 		dossierResource.add(linkTo(methodOn(
-				DossiersController.class).cloreDossier(dossierResource.getTechnicalId(),null))
+				DossiersController.class).miseAJourDossier(dossierResource.getTechnicalId(),null))
 				.withRel(CLORE_PATH));
 
 
