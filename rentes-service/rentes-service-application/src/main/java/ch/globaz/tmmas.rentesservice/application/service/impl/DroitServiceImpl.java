@@ -5,6 +5,7 @@ import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
 import ch.globaz.tmmas.rentesservice.domain.event.DroitCreeEvent;
+import ch.globaz.tmmas.rentesservice.domain.factory.DroitFactory;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.droit.Droit;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
@@ -45,18 +46,22 @@ public class DroitServiceImpl implements DroitService{
 
     @Transactional
     @Override
-    public DroitResourceAttributes creerDroit(Long dossierId, CreerDroitCommand command) {
+    public Optional<DroitResourceAttributes> creerDroit(Long dossierId, CreerDroitCommand command) {
 
-        Optional<Dossier> optionalFossier = dossierRepository.dossierById(dossierId);
-        Dossier dossier = optionalFossier.get();
 
-        Droit droit = Droit.builder(command,dossier);
+        return dossierRepository.dossierById(dossierId)
+            .map(dossier -> {
+                Droit droit = DroitFactory.create(command,dossier);
 
-        droitRepository.initieDroit(droit);
+                droitRepository.initieDroit(droit);
 
-        eventPublisher.publishEvent(DroitCreeEvent.fromEntity(droit));
+                eventPublisher.publishEvent(DroitCreeEvent.fromEntity(droit));
 
-        return new DroitResourceAttributes(droit);
+                DroitResourceAttributes res =  new DroitResourceAttributes(droit);
+
+                return Optional.of(res);
+            })
+            .orElseGet(Optional::empty);
 
     }
 
@@ -64,8 +69,8 @@ public class DroitServiceImpl implements DroitService{
     @Override
     public Optional<DroitResourceAttributes> getById(Long dossierId, Long droitId) {
 
-        Optional<Dossier> optionalFossier = dossierRepository.dossierById(dossierId);
-        Dossier dossier = optionalFossier.get();
+        //Optional<Dossier> optionalFossier = dossierRepository.dossierById(dossierId);
+        //Dossier dossier = optionalFossier.get();
 
         return droitRepository.getDroitById(droitId).map(droit -> {
 

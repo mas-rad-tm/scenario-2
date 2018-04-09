@@ -12,7 +12,7 @@ public interface DroitService {
     List<DroitResourceAttributes> getByIdDossier(Long id);
 
     @Transactional
-    DroitResourceAttributes creerDroit(Long dossierId, CreerDroitCommand command);
+    Optional<DroitResourceAttributes> creerDroit(Long dossierId, CreerDroitCommand command);
 
     @Transactional
     Optional<DroitResourceAttributes> getById(Long dossierId, Long droitId);

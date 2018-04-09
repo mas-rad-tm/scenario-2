@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @ToString
 public class CreerDroitCommand implements DomainCommand,ValueObject<CreerDossierCommand> {
 
-    @NotNull
+
     private ZonedDateTime dateDebutDroit;
 
 

@@ -16,6 +16,7 @@ public class DomainEventPublisher implements InternalEventPublisher {
 
 	@Override
 	public void publishEvent(DomainEvent event) {
+
 		commandPublisher.publishEvent(event);
 	}
 }

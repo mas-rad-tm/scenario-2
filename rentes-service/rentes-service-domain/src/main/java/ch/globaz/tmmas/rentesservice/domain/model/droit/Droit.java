@@ -43,10 +43,6 @@ public class Droit implements Entity<Droit>{
         return false;
     }
 
-    public static Droit builder(CreerDroitCommand command, Dossier dossier) {
-        return new Droit(command.getDateDebutDroit(),dossier);
-    }
-
     //hibernate
     private Long id;
 

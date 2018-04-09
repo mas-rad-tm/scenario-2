@@ -54,12 +54,17 @@ public class DroitController {
 
         commandPublisher.publishCommand(command);
 
-        ResourceObject resourceObject = droitService.creerDroit(dossierId,command).buildResourceObject();
+        return droitService.creerDroit(dossierId,command)
+            .map(droit -> {
+                ResourceObject resourceObject = droit.buildResourceObject();
 
-        putSelfLink(dossierId,resourceObject);
-        putLocationHeader(resourceObject);
+                putSelfLink(dossierId,resourceObject);
+                putLocationHeader(resourceObject);
 
-        return new ResponseEntity<>(new ResponseResource(resourceObject),  HttpStatus.CREATED);
+                return new ResponseEntity<>(new ResponseResource(resourceObject),  HttpStatus.CREATED);
+            })
+            .orElseGet(() ->  new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id "
+                    + dossierId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND));
 
     }
 
@@ -68,16 +73,40 @@ public class DroitController {
 
         LOGGER.debug("droitsByDossierId(), {}",dossierId);
 
+        Optional<Dossier> optionalDossier = dossierService.getById(dossierId);
 
-        List<DroitResourceAttributes> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
 
-        List<ResourceObject> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
-            ResourceObject resourceObject = droitResourceAttributes.buildResourceObject();
-            putSelfLink(dossierId,resourceObject);
-            return resourceObject;
-        }).collect(Collectors.toList());
+        return optionalDossier
+            .map(dossier -> {
+                List<DroitResourceAttributes> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
 
-        return new ResponseEntity<>(new ResponseCollectionResource(droitsResourceObject), HttpStatus.OK);
+                List<ResourceObject> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
+                    ResourceObject resourceObject = droitResourceAttributes.buildResourceObject();
+                    putSelfLink(dossierId,resourceObject);
+                    return resourceObject;
+                }).collect(Collectors.toList());
+
+                return new ResponseEntity<>(new ResponseCollectionResource(droitsResourceObject), HttpStatus.OK);
+            })
+            .orElseGet(() ->  new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id "
+                + dossierId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND) );
+
+        /**
+        if(optionnalDossier.isPresent()){
+            List<DroitResourceAttributes> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
+
+            List<ResourceObject> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
+                ResourceObject resourceObject = droitResourceAttributes.buildResourceObject();
+                putSelfLink(dossierId,resourceObject);
+                return resourceObject;
+            }).collect(Collectors.toList());
+
+            return new ResponseEntity<>(new ResponseCollectionResource(droitsResourceObject), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id "
+                    + dossierId + ", for dossierId : " + dossierId), HttpStatus.NOT_FOUND);
+        }
+*/
 
     }
 

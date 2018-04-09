@@ -132,7 +132,8 @@ class DossiersController {
 					LOGGER.debug("getDossierById() return  {}",dossier);
 					return new ResponseEntity<>(new ResponseResource(res), HttpStatus.OK);
 
-				}).orElseGet(() -> new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " + dossierId)
+				}).orElseGet(() ->
+						new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " + dossierId)
                 , HttpStatus.NOT_FOUND));
 
 	}
