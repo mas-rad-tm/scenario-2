@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @EqualsAndHashCode
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 public class CreerDroitCommand implements DomainCommand,ValueObject<CreerDossierCommand> {
 
     @NotNull
-    private LocalDate dateDebutDroit;
+    private ZonedDateTime dateDebutDroit;
 
 
     @Override

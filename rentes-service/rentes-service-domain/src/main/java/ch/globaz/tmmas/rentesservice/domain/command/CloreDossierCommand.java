@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @EqualsAndHashCode
 @Getter
@@ -15,14 +16,14 @@ import java.time.LocalDate;
 public class CloreDossierCommand implements DomainCommand,ValueObject<CloreDossierCommand>{
 
 	@NotNull
-	private LocalDate dateCloture;
+	private ZonedDateTime dateCloture;
 
 	@NotNull
 	private String raisonCloture;
 
 	public CloreDossierCommand(){}
 
-	public CloreDossierCommand(LocalDate dateCloture, String raisonCloture){
+	public CloreDossierCommand(ZonedDateTime dateCloture, String raisonCloture){
 		this.raisonCloture = raisonCloture;
 		this.dateCloture = dateCloture;
 	}

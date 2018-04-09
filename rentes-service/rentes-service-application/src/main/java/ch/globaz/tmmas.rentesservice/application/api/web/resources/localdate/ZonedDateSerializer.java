@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.DateFormatter.DATE_FORMAT;
@@ -16,15 +17,15 @@ import static ch.globaz.tmmas.rentesservice.application.api.web.resources.locald
  * <p>
  * ${VERSION}
  */
-public class LocalDateSerializer extends StdSerializer<LocalDate> {
+public class ZonedDateSerializer extends StdSerializer<ZonedDateTime> {
 
 
-    public LocalDateSerializer(){
-        super(LocalDate.class);
+    public ZonedDateSerializer(){
+        super(ZonedDateTime.class);
     }
 
     @Override
-    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider sp) throws IOException, JsonProcessingException {
+    public void serialize(ZonedDateTime value, JsonGenerator gen, SerializerProvider sp) throws IOException, JsonProcessingException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         gen.writeString(value.format(formatter));

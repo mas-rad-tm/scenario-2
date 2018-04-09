@@ -5,6 +5,7 @@ import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,9 +13,9 @@ import java.util.List;
 public class DateCloturePlusRecenteDateValidation extends AbstractSpecification<Dossier> {
 
 
-    private LocalDate dateCloture;
+    private ZonedDateTime dateCloture;
 
-    public DateCloturePlusRecenteDateValidation(LocalDate dateCloture) {
+    public DateCloturePlusRecenteDateValidation(ZonedDateTime dateCloture) {
          this.dateCloture = dateCloture;
     }
 

@@ -13,8 +13,4 @@ public enum MiseAjourDossierAction {
 		this.action = action;
 	}
 
-	@JsonValue
-	public String getAction(){
-		return action;
-	}
 }

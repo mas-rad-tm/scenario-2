@@ -1,6 +1,7 @@
 package ch.globaz.tmmas.rentesservice.application.service.impl;
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
+import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.event.impl.DomainEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
@@ -11,6 +12,7 @@ import ch.globaz.tmmas.rentesservice.domain.common.specification.Specification;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierClotEvent;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierCreeEvent;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierValideeEvent;
+import ch.globaz.tmmas.rentesservice.domain.factory.DossierFactory;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.DossierStatus;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateCloturePlusRecenteDateValidation;
@@ -32,7 +34,7 @@ public class DossierServiceImpl implements DossierService {
 	DossierRepository repository;
 
 	@Autowired
-	DomainEventPublisher eventPublisher;
+	InternalEventPublisher eventPublisher;
 
 
 	@Transactional
@@ -52,11 +54,16 @@ public class DossierServiceImpl implements DossierService {
 
 	}
 
+	/**
+	 * Création d'une entoté dossier
+	 * @param command la commande de création
+	 * @return une instance de l'entitié créé
+	 */
 	@Transactional
 	@Override
 	public Dossier creerDossier(CreerDossierCommand command) {
 
-		Dossier dossier = Dossier.builder(command);
+		Dossier dossier = DossierFactory.create(command);
 
 		dossier =  repository.initieDossier(dossier);
 
@@ -125,9 +132,9 @@ public class DossierServiceImpl implements DossierService {
 	public Optional<DossierResourceAttributes> miseAJourDossier(MiseAJourDossierCommand command, Long dossierId) {
 
 		switch (command.getAction()){
+
 			case VALIDER:
 				return validerDossier(command,dossierId);
-
 
 			case CLORE:
 				return cloreDossier(command,dossierId);

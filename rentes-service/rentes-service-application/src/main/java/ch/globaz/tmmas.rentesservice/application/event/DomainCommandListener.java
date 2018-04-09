@@ -7,9 +7,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-class DossiersCommandListener {
+class DomainCommandListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DossiersCommandListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DomainCommandListener.class);
 
 
     @EventListener

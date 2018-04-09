@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @EqualsAndHashCode
 @Getter
@@ -14,11 +15,11 @@ import java.time.LocalDate;
 public class ValiderDossierCommand implements DomainCommand,ValueObject<ValiderDossierCommand>{
 
 	@NotNull
-	private LocalDate dateValidation;
+	private ZonedDateTime dateValidation;
 
 	public ValiderDossierCommand(){}
 
-	public ValiderDossierCommand(LocalDate dateValidation){
+	public ValiderDossierCommand(ZonedDateTime dateValidation){
 
 	}
 

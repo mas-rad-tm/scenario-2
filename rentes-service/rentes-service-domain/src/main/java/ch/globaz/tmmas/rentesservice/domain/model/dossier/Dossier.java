@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +21,9 @@ public class Dossier implements Entity<Dossier> {
 
 
     private DossierId identifiant;
-    private LocalDate dateEnregistrement;
-    private LocalDate dateValidation;
-    private LocalDate dateCloture;
+    private ZonedDateTime dateEnregistrement;
+    private ZonedDateTime dateValidation;
+    private ZonedDateTime dateCloture;
     private Long requerantId;
     private DossierStatus status;
 
@@ -39,7 +41,7 @@ public class Dossier implements Entity<Dossier> {
         return requerantId;
     }
 
-    public LocalDate dateEnregistrement() {
+    public ZonedDateTime dateEnregistrement() {
         return dateEnregistrement;
     }
 
@@ -47,7 +49,7 @@ public class Dossier implements Entity<Dossier> {
         return status;
     }
 
-    public Dossier(LocalDate dateEnregistrement, Long requerantId){
+    public Dossier(ZonedDateTime dateEnregistrement, Long requerantId){
         this.requerantId = requerantId;
         this.dateEnregistrement = dateEnregistrement;
         this.identifiant = DossierId.aleatoire();
@@ -55,15 +57,17 @@ public class Dossier implements Entity<Dossier> {
 
     }
 
-    public static Dossier builder(Long requerantId, LocalDate dateEnregistrement) {
+    public static Dossier builder(Long requerantId, ZonedDateTime dateEnregistrement) {
         return new Dossier(dateEnregistrement,requerantId);
     }
-
+/*
     public static Dossier builder(CreerDossierCommand command) {
+        ZoneId zoneId = ZoneId.of("Europe/Paris");
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(command.getDateEnregistrement(),zoneId);
         return new Dossier(command.getDateEnregistrement(),command.getRequerantId());
-    }
+    }*/
 
-    public Dossier validerDossier(LocalDate dateValidation){
+    public Dossier validerDossier(ZonedDateTime dateValidation){
 
         this.status = DossierStatus.VALIDE;
         this.dateValidation = dateValidation;
@@ -71,7 +75,7 @@ public class Dossier implements Entity<Dossier> {
 
     }
 
-    public Dossier cloreDossier(LocalDate dateCloture){
+    public Dossier cloreDossier(ZonedDateTime dateCloture){
         this.status = DossierStatus.CLOT;
         this.dateCloture = dateCloture;
         return this;

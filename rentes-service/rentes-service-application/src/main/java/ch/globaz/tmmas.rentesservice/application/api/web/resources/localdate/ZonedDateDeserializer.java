@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.DateFormatter.DATE_FORMAT;
@@ -16,23 +17,23 @@ import static ch.globaz.tmmas.rentesservice.application.api.web.resources.locald
  * <p>
  * ${VERSION}
  */
-public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
+public class ZonedDateDeserializer extends StdDeserializer<ZonedDateTime> {
 
 
 
 
-    protected LocalDateDeserializer() {
+    protected ZonedDateDeserializer() {
         super(LocalDate.class);
     }
 
 
     @Override
-    public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    public ZonedDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT
         );
 
-        return LocalDate.parse(jp.readValueAs(String.class),formatter);
+        return ZonedDateTime.parse(jp.readValueAs(String.class),formatter);
     }
 
 }

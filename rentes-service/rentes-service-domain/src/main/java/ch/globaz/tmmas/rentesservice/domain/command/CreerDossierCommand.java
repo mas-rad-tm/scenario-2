@@ -8,23 +8,20 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @EqualsAndHashCode
 @Getter
 @ToString
-public class CreerDossierCommand implements DomainCommand,ValueObject<CreerDossierCommand> {
+public class CreerDossierCommand implements DomainCommand {
 
 
-	@NotNull
-	private LocalDate dateEnregistrement;
+	private ZonedDateTime dateEnregistrement;
 	@NotNull
 	private Long requerantId;
 
 	CreerDossierCommand () {}
 
 
-	@Override
-	public boolean sameValueAs(CreerDossierCommand other) {
-		return this.equals(other);
-	}
 }

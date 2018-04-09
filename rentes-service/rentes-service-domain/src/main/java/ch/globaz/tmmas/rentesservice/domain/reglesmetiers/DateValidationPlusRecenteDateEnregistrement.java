@@ -5,6 +5,7 @@ import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 public class DateValidationPlusRecenteDateEnregistrement extends AbstractSpecification<Dossier> {
 
 
-    private LocalDate dateValidation;
+    private ZonedDateTime dateValidation;
 
-    public DateValidationPlusRecenteDateEnregistrement(LocalDate dateValidation) {
+    public DateValidationPlusRecenteDateEnregistrement(ZonedDateTime dateValidation) {
          this.dateValidation = dateValidation;
     }
 

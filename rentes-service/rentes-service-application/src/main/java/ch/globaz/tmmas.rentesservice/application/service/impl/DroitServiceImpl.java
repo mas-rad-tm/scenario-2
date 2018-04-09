@@ -1,8 +1,10 @@
 package ch.globaz.tmmas.rentesservice.application.service.impl;
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.DroitResourceAttributes;
+import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDroitCommand;
+import ch.globaz.tmmas.rentesservice.domain.event.DroitCreeEvent;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.droit.Droit;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
@@ -23,6 +25,9 @@ public class DroitServiceImpl implements DroitService{
 
     @Autowired
     private DossierRepository dossierRepository;
+
+    @Autowired
+    InternalEventPublisher eventPublisher;
 
     @Transactional
     @Override
@@ -49,6 +54,7 @@ public class DroitServiceImpl implements DroitService{
 
         droitRepository.initieDroit(droit);
 
+        eventPublisher.publishEvent(DroitCreeEvent.fromEntity(droit));
 
         return new DroitResourceAttributes(droit);
 

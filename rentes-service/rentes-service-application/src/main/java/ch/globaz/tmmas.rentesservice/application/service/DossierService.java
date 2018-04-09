@@ -21,8 +21,6 @@ public interface DossierService {
 
 	Dossier creerDossier(CreerDossierCommand command);
 
-
-
 	Optional<DossierResourceAttributes> miseAJourDossier(MiseAJourDossierCommand command, Long dossierId);
 
 

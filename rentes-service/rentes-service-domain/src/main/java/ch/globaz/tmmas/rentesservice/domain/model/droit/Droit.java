@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +19,13 @@ public class Droit implements Entity<Droit>{
 
     private List<DonneesFinancieres> donnesFinancieres;
     private DroitId identifiant;
-    private LocalDate dateDebutDroit;
-    private LocalDate dateFinDroit;
+    private ZonedDateTime dateDebutDroit;
+    private ZonedDateTime dateFinDroit;
     private Dossier dossier;
     private DroitStatus status;
 
 
-    public Droit(LocalDate dateDebutDroit, Dossier dossier){
+    public Droit(ZonedDateTime dateDebutDroit, Dossier dossier){
         this.dateDebutDroit = dateDebutDroit;
         this.dossier = dossier;
         this.donnesFinancieres = new ArrayList<>();

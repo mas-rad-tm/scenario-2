@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+
 @Getter
 @ToString
 public class MiseAjourDossierData {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private LocalDate dateValidation;
+	private ZonedDateTime dateValidation;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private LocalDate dateCloture;
+	private ZonedDateTime dateCloture;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String raisonCloture;

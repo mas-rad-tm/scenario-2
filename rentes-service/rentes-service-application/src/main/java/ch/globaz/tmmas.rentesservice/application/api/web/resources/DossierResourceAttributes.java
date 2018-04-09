@@ -2,8 +2,8 @@ package ch.globaz.tmmas.rentesservice.application.api.web.resources;
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceAttributes;
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ResourceObject;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.LocalDateDeserializer;
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.LocalDateSerializer;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.ZonedDateDeserializer;
+import ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.ZonedDateSerializer;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.DossierStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static ch.globaz.tmmas.rentesservice.application.api.web.resources.localdate.DateFormatter.DATE_FORMAT;
@@ -33,19 +33,19 @@ public class DossierResourceAttributes implements ResourceAttributes{
 	@JsonProperty("id")
 	private Long technicalId;
 
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
-	private LocalDate dateEnregistrement;
+	@JsonDeserialize(using = ZonedDateDeserializer.class)
+	@JsonSerialize(using = ZonedDateSerializer.class)
+	private ZonedDateTime dateEnregistrement;
 
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = ZonedDateDeserializer.class)
+	@JsonSerialize(using = ZonedDateSerializer.class)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private LocalDate dateValidation;
+	private ZonedDateTime dateValidation;
 
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = ZonedDateDeserializer.class)
+	@JsonSerialize(using = ZonedDateSerializer.class)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private LocalDate dateCloture;
+	private ZonedDateTime dateCloture;
 
 	private DossierStatus status;
 

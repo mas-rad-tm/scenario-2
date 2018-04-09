@@ -52,15 +52,20 @@ class DossiersController {
 	@Autowired
 	InternalCommandPublisher commandPublisher;
 
-
+	/**
+	 * Création d'un dossier
+	 * @param command la commande de création contenant les informations
+	 * @return une instance de <code>ResponseEntity</code>
+	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command){
-
 		LOGGER.info("creerDossier(), command= {}",command);
 
 		commandPublisher.publishCommand(command);
 
-		ResourceObject dossierResource = new DossierResourceAttributes(dossierService.creerDossier(command)).buildResourceObject();
+		ResourceObject dossierResource = new DossierResourceAttributes(
+				dossierService.creerDossier(command))
+				.buildResourceObject();
 
 		putSelfLink(dossierResource);
 
@@ -70,43 +75,15 @@ class DossiersController {
 
 	@RequestMapping(value = "/{dossierId}", method = RequestMethod.PATCH, consumes = MediaType
 			.APPLICATION_JSON_VALUE)
-	public ResponseEntity miseAJourDossier(@PathVariable Long dossierId, @Valid @RequestBody MiseAJourDossierCommand
-			majCommand){
-
-		LOGGER.info("mise ajour dossier(), command={}",majCommand);
+	public ResponseEntity miseAJourDossier(@PathVariable Long dossierId,
+       @Valid @RequestBody MiseAJourDossierCommand command){
+		LOGGER.info("mise a jour dossier(), command={}",command);
 
 		Optional<DossierResourceAttributes> optionnalDossier;
 
+		commandPublisher.publishCommand(command);
 
-		commandPublisher.publishCommand(majCommand);
-
-		optionnalDossier = dossierService.miseAJourDossier(majCommand,dossierId);
-
-		if(optionnalDossier.isPresent()){
-
-			DossierResourceAttributes dossierResourceAttributes = optionnalDossier.get();
-			ResourceObject res = dossierResourceAttributes.buildResourceObject();
-			putSelfLink(res);
-
-			return new ResponseEntity<>(new ResponseResource(res),  HttpStatus.OK);
-
-		}
-
-		return new ResponseEntity<>(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " +
-				dossierId), HttpStatus.NOT_FOUND);
-
-	}
-
-/**
-	@RequestMapping(value = "/{dossierId}/clore", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity cloreDossier(@PathVariable Long dossierId,@Valid @RequestBody CloreDossierCommand
-			cloreDossierCommand){
-
-		LOGGER.info("cloreDossier(), command={}",cloreDossierCommand);
-
-		commandPublisher.publishCommand(cloreDossierCommand);
-
-		Optional<DossierResourceAttributes> optionnalDossier = dossierService.cloreDossier(cloreDossierCommand,dossierId);
+		optionnalDossier = dossierService.miseAJourDossier(command,dossierId);
 
 		if(optionnalDossier.isPresent()){
 
@@ -124,9 +101,9 @@ class DossiersController {
 	}
 
 
-*/
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity allDossiers(){
+		LOGGER.debug("allDossiers()");
 
 		List<DossierResourceAttributes> dossiersResource = dossierService.getAll();
 
@@ -142,7 +119,6 @@ class DossiersController {
 
 	@RequestMapping(value = "/{dossierId}", method = RequestMethod.GET)
 	public ResponseEntity dossierById(@PathVariable Long dossierId){
-
 		LOGGER.debug("dossierById(), {}",dossierId);
 
 
@@ -158,8 +134,6 @@ class DossiersController {
 
 				}).orElseGet(() -> new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No entity found with id " + dossierId)
                 , HttpStatus.NOT_FOUND));
-
-
 
 	}
 
