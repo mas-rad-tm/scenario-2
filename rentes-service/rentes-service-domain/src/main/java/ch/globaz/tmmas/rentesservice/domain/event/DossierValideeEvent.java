@@ -1,6 +1,6 @@
 package ch.globaz.tmmas.rentesservice.domain.event;
 
-import ch.globaz.tmmas.rentesservice.domain.common.GlobalParamers;
+import ch.globaz.tmmas.rentesservice.domain.common.GlobalParams;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class DossierValideeEvent implements DomainEvent {
 
     private final static DateTimeFormatter formatter
-            = DateTimeFormatter.ofPattern(GlobalParamers.DATE_FORMATTER_PATTER.value);
+            = DateTimeFormatter.ofPattern(GlobalParams.DATE_FORMATTER_PATTER.value);
 
     private String identifiant;
     private String dateValidation;

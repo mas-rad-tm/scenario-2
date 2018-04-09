@@ -1,6 +1,7 @@
-package ch.globaz.tmmas.rentesservice.domain.common.localdate;
+package ch.globaz.tmmas.personnesservice.domain.common.localdate;
 
-import ch.globaz.tmmas.rentesservice.domain.common.GlobalParams;
+
+import ch.globaz.tmmas.personnesservice.domain.common.GlobalParams;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

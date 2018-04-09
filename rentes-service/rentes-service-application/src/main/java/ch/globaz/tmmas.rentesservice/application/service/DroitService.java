@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DroitService {
-    @Transactional
+
     List<DroitResourceAttributes> getByIdDossier(Long id);
 
-    @Transactional
+
     Optional<DroitResourceAttributes> creerDroit(Long dossierId, CreerDroitCommand command);
 
-    @Transactional
+
     Optional<DroitResourceAttributes> getById(Long dossierId, Long droitId);
 
 
