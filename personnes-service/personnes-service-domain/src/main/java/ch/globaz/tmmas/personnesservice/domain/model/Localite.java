@@ -12,9 +12,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class Localite implements ValueObject {
 
-	@NotNull(message = "Le nom ne peut pas être null")
+
 	private String nom;
-	@NotNull(message = "Le npa ne peut pas être null")
 	private Integer npa;
 
 	public Localite(String nom, Integer npa){

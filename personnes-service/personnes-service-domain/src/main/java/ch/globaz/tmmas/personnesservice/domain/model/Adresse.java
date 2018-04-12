@@ -1,5 +1,6 @@
 package ch.globaz.tmmas.personnesservice.domain.model;
 
+
 import ch.globaz.tmmas.personnesservice.domain.common.ValueObject;
 import lombok.Getter;
 

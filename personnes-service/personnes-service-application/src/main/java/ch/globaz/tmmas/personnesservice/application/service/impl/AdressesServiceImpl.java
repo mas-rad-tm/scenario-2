@@ -6,8 +6,10 @@ import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
+import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +22,10 @@ public class AdressesServiceImpl implements AdressesService {
     @Autowired
     LocaliteRepository localiteRepository;
 
+    @Autowired
+    PersonneRepository personneRepository;
+
+    @Transactional
     @Override
     public Optional<Adresse> createAdresse(CreerAdresseCommand command) {
 
@@ -29,8 +35,12 @@ public class AdressesServiceImpl implements AdressesService {
                 Adresse adresse = AdresseFactory.create(localite,command.getRue(),
                         command.getNumero(),command.getComplement());
 
+                adressesRepository.creerAdresse(adresse);
+
                 return Optional.of(adresse);
             }).orElseGet(Optional::empty);
 
     }
+
+
 }

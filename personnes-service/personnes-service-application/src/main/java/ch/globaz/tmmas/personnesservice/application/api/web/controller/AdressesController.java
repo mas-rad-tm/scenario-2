@@ -24,16 +24,13 @@ import javax.validation.Valid;
 @RequestMapping("/adresses")
 public class AdressesController {
 
-    private static final String ADRESSES = "/adresses";
+    private static final String ADRESSES = "/personnes/{id}/adresses/{id}";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdressesController.class);
 
     @Autowired
     AdressesService adressesService;
-    /**
-     * Génération de 5 localités a but d'exemple et de données de bases
-     * @return une instance de <code>ResponseEntity</code>
-     */
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity creerDossier(@Valid @RequestBody CreerAdresseCommand command){
         LOGGER.info("creerAdresses(): {}", command);
@@ -52,9 +49,9 @@ public class AdressesController {
 
     }
 
-    private HttpHeaders putLocationHeader(ResourceObject dossierResource) {
+    private HttpHeaders putLocationHeader(ResourceObject adresseResource) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new UriTemplate(ADRESSES).expand(dossierResource.getTechnicalId()));
+        headers.setLocation(new UriTemplate(ADRESSES).expand(adresseResource.getTechnicalId()));
         return headers;
     }
 }
