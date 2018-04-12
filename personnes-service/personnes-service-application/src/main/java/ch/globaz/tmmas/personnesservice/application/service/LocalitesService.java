@@ -1,6 +1,6 @@
 package ch.globaz.tmmas.personnesservice.application.service;
 
-public interface LocaliteService {
+public interface LocalitesService {
 
 
 	void generateLocalitAsSample();

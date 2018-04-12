@@ -112,6 +112,15 @@
             </dependency>
 
 
+            <!-- spring web hateoas -->
+            <!--
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
+            doc: doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-hateoas</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
             <!-- ********************************* -->
             <!-- ******** Persistence ************ -->
             <!-- ********************************* -->

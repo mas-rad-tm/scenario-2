@@ -1,16 +1,14 @@
 package ch.globaz.tmmas.personnesservice.application.service.impl;
 
-import ch.globaz.tmmas.personnesservice.application.service.LocaliteService;
+import ch.globaz.tmmas.personnesservice.application.service.LocalitesService;
 import ch.globaz.tmmas.personnesservice.domain.model.Localite;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.IntStream;
-
 @Component
-public class LocaliteServiceImpl implements LocaliteService {
+public class LocalitesServiceImpl implements LocalitesService {
 
 	@Autowired
 	LocaliteRepository repository;
