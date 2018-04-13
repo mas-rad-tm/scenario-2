@@ -10,21 +10,24 @@ import java.time.ZonedDateTime;
 @Getter
 public class Adresse implements ValueObject<Adresse> {
 
-	Localite localite;
-	String rue;
-	Integer numero;
-	String complement;
-	ZonedDateTime dateDebutValidite;
-	ZonedDateTime dateFinvalidite;
-	Boolean isActive;
+	private Localite localite;
+	private String rue;
+	private Integer numero;
+	private String complement;
+	private ZonedDateTime dateDebutValidite;
+	private ZonedDateTime dateFinvalidite;
+	private Boolean isActive;
+	private PersonneMorale personneMorale;
 
-	public Adresse(Localite localite, String rue, Integer numero, String complement, ZonedDateTime dateValidite) {
+	public Adresse(Localite localite, PersonneMorale personne, String rue, Integer numero, String complement, ZonedDateTime
+			dateValidite) {
 		this.localite = localite;
 		this.rue = rue;
 		this.complement = complement;
 		this.dateDebutValidite = dateValidite;
 		this.numero = numero;
 		this.isActive = Boolean.TRUE;
+		this.personneMorale = personne;
 	}
 
 

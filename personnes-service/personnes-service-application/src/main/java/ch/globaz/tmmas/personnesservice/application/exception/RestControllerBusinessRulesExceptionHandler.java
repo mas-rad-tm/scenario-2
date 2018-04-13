@@ -1,7 +1,7 @@
-package ch.globaz.tmmas.rentesservice.application.api.web.exception;
+package ch.globaz.tmmas.personnesservice.application.exception;
 
-import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ErrorResponseResource;
-import ch.globaz.tmmas.rentesservice.application.service.impl.RegleMetiersNonSatisfaite;
+import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.ErrorResponseResource;
+import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,16 +19,16 @@ class RestControllerBusinessRulesExceptionHandler {
 
 
 
-    @ExceptionHandler(RegleMetiersNonSatisfaite.class)
-    protected ResponseEntity<Object> handleReglesMetiersException(RegleMetiersNonSatisfaite ex){
 
-        ErrorResponseResource errors = new ErrorResponseResource(HttpStatus.CONFLICT,ex.getMessage(),ex.getReglesMetiersNonStaisfaite());
+
+    @ExceptionHandler(AdresseIncoherenceException.class)
+    protected ResponseEntity<Object> handleAdresseIncoherenceException(AdresseIncoherenceException ex){
+
+        ErrorResponseResource errors = new ErrorResponseResource(HttpStatus.CONFLICT,ex.getMessage(),ex.getMessage());
 
         return ResponseEntity
                 .badRequest()
                 .body(errors);
     }
-
-
 
 }

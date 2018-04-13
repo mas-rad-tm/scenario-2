@@ -26,6 +26,7 @@ public class PersonneServiceImpl implements PersonneService {
 
 	}
 
+	@Transactional
 	@Override
 	public Optional<PersonneMorale> findById(Long id) {
 		return personneRepository.getPersonneById(id).map(Optional::of).orElseGet(Optional::empty);

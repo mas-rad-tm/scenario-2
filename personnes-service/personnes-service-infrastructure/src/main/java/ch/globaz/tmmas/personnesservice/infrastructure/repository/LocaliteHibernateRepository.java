@@ -20,6 +20,6 @@ public class LocaliteHibernateRepository extends HibernateRepository implements 
 	@Override
 	public Optional<Localite> findById(Long id) {
 		Localite localite =  getSession().get(Localite.class, id);
-		return Optional.of(localite);
+		return Optional.ofNullable(localite);
 	}
 }

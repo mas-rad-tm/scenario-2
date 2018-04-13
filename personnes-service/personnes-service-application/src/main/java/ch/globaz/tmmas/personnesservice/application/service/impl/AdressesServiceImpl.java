@@ -2,8 +2,10 @@ package ch.globaz.tmmas.personnesservice.application.service.impl;
 
 import ch.globaz.tmmas.personnesservice.application.service.AdressesService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerAdresseCommand;
+import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
@@ -27,18 +29,17 @@ public class AdressesServiceImpl implements AdressesService {
 
     @Transactional
     @Override
-    public Optional<Adresse> createAdresse(CreerAdresseCommand command) {
+    public Adresse createAdresse(CreerAdresseCommand command, Long personneId) throws AdresseIncoherenceException {
 
-        //check si localite existe
-        return localiteRepository.findById(command.getLocaliteId())
-            .map(localite -> {
-                Adresse adresse = AdresseFactory.create(localite,command.getRue(),
-                        command.getNumero(),command.getComplement());
+        Optional<PersonneMorale> personneMorale = personneRepository.getPersonneById(personneId);
 
-                adressesRepository.creerAdresse(adresse);
+        Adresse adresse =  AdresseFactory.create(command,personneMorale.get(),localiteRepository);
 
-                return Optional.of(adresse);
-            }).orElseGet(Optional::empty);
+        personneMorale.get().addAdresse(adresse);
+
+        adressesRepository.creerAdresse(adresse);
+        
+        return adresse;
 
     }
 

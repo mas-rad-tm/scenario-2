@@ -19,4 +19,6 @@ public class PersonneId implements ValueObject<PersonneId>{
 	public boolean sameValueAs(PersonneId other) {
 		return this.nss.equals(other.nss);
 	}
+
+	PersonneId(){}
 }

@@ -31,6 +31,7 @@ public class AdressesController {
     @Autowired
     AdressesService adressesService;
 
+    /**
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity creerDossier(@Valid @RequestBody CreerAdresseCommand command){
         LOGGER.info("creerAdresses(): {}", command);
@@ -47,7 +48,7 @@ public class AdressesController {
             new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No localite found with id "
                     + command.getLocaliteId()),HttpStatus.NOT_FOUND));
 
-    }
+    }*/
 
     private HttpHeaders putLocationHeader(ResourceObject adresseResource) {
         HttpHeaders headers = new HttpHeaders();

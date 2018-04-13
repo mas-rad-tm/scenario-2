@@ -19,6 +19,6 @@ public class PersonnesHibernateRepository extends HibernateRepository implements
 	@Override
 	public Optional<PersonneMorale> getPersonneById(Long id) {
 		PersonneMorale personneMorale =  getSession().get(PersonneMorale.class, id);
-		return Optional.of(personneMorale);
+		return Optional.ofNullable(personneMorale);
 	}
 }

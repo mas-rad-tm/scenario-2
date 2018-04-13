@@ -9,6 +9,9 @@ import ch.globaz.tmmas.personnesservice.application.service.AdressesService;
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerAdresseCommand;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
+import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
+import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
+import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,19 +55,32 @@ public class PersonnesController {
                 .buildResourceObject();
 
 
-            return new ResponseEntity<>(new ResponseResource(persoResourceObject), putLocationHeader(persoResourceObject), HttpStatus
+            return new ResponseEntity<>(new ResponseResource(persoResourceObject), HttpStatus
                     .CREATED);
 
     }
 
-    @RequestMapping(value="/{id}/adresses", method = RequestMethod.POST)
+    @RequestMapping(value="/{personneId}/adresses", method = RequestMethod.POST)
     public ResponseEntity creerAdresseForPersonne(@Valid @RequestBody CreerAdresseCommand command, @PathVariable Long
-            personneId){
+            personneId) throws AdresseIncoherenceException {
         LOGGER.info("creerAdresses() for personnid: {}, command:{}", personneId, command);
 
+       // Optional<PersonneMorale> personneMorale = personneService.findById(personneId);
+
+        //Adresse adresse =  AdresseFactory.create(command,personneId,localiteRepository,personneRepository);
+
+        Adresse adresse =  adresseService.createAdresse(command,personneId);
+
+       //personneMorale.get().addAdresse(adresse);
+
+        ResourceObject adresseResource = new AdresseResourceAttributes(adresse)
+                .buildResourceObject();
+
+        return new ResponseEntity<>(new ResponseResource(adresseResource), putLocationHeader(adresseResource), HttpStatus.CREATED);
+/*
         return personneService.findById(personneId).map(personne -> {
 
-            return adresseService.createAdresse(command).map(adresse -> {
+            return adresseService.createAdresse(command,personneId).map(adresse -> {
 
                 ResourceObject adresseResource = new AdresseResourceAttributes(adresse)
                         .buildResourceObject();
@@ -79,9 +95,8 @@ public class PersonnesController {
             );
 
         }).orElseGet(() ->
-                new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No personnes found with id "
-                        + personneId),HttpStatus.NOT_FOUND));
-
+                new ResponseEntity(HttpStatus.HTTP_VERSION_NOT_SUPPORTED));
+*/
 
     }
 
