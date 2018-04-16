@@ -1,8 +1,10 @@
 package ch.globaz.tmmas.personnesservice.application.service.impl;
 
 import ch.globaz.tmmas.personnesservice.application.api.web.controller.PersonnesController;
+import ch.globaz.tmmas.personnesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
+import ch.globaz.tmmas.personnesservice.domain.event.PersonneMoraleCreeEvent;
 import ch.globaz.tmmas.personnesservice.domain.exception.PersonnesIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.factory.PersonneMoraleFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
@@ -25,13 +27,18 @@ public class PersonneServiceImpl implements PersonneService {
 	@Autowired
 	PersonneRepository personneRepository;
 
+	@Autowired
+	InternalEventPublisher eventPublisher;
+
 	@Transactional
 	@Override
 	public PersonneMorale creerPersonneMorale(CreerPersonneMoraleCommand command) throws PersonnesIncoherenceException {
 
-		return personneRepository.creerPersonneMorale(
+		PersonneMorale personneMorale = personneRepository.creerPersonneMorale(
 				PersonneMoraleFactory.creerPersonne(command,personneRepository)
 		);
+		eventPublisher.publishEvent(PersonneMoraleCreeEvent.fromEntity(personneMorale));
+		return personneMorale;
 
 	}
 
@@ -49,10 +56,6 @@ public class PersonneServiceImpl implements PersonneService {
 	public Optional<PersonneMorale> getPersonneById(Long id) {
 
 		return personneRepository.getPersonneById(id).map(personne -> {
-
-			//Set<Adresse> adresse = personne.getAdresses();
-
-			//System.out.println(personne.getAdresses());
 
 			return Optional.of(personne);
 		}).orElseGet(Optional::empty);

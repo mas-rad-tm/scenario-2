@@ -14,8 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class DossierClotEvent implements DomainEvent {
 
-    private final static DateTimeFormatter formatter
-            = DateTimeFormatter.ofPattern(GlobalParams.DATE_FORMATTER_PATTER.value);
+
 
     private String identifiant;
     private String dateEnregistrement;

@@ -33,7 +33,7 @@ public class Adresse implements ValueObject<Adresse> {
 
 	public Adresse desactive(ZonedDateTime dateFinvalidite){
 		this.isActive = Boolean.FALSE;
-		this.dateFinvalidite = dateFinvalidite;
+		this.dateFinvalidite = dateFinvalidite.minus(Period.ofDays(1));
 		return this;
 	}
 	@Override
