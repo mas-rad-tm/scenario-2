@@ -30,13 +30,12 @@
             <property name="nss" column="nss" not-null="true"/>
         </component>
 
-       <set name="adresses">
-            <key>
-                <column name="id" not-null="true" />
-            </key>
-            <many-to-many class="ch.globaz.tmmas.personnesservice.domain.model.Adresse" />
+        <set name="adresses" inverse="true" cascade="all" fetch="select" >
 
+            <key column="personne_id" not-null="true" />
+            <one-to-many class="ch.globaz.tmmas.personnesservice.domain.model.Adresse" />
         </set>
+
 
     </class>
 

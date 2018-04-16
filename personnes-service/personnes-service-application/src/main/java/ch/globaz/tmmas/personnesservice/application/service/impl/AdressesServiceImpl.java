@@ -29,17 +29,27 @@ public class AdressesServiceImpl implements AdressesService {
 
     @Transactional
     @Override
-    public Adresse createAdresse(CreerAdresseCommand command, Long personneId) throws AdresseIncoherenceException {
+    public Adresse createAdresse(CreerAdresseCommand command, PersonneMorale personneMorale) throws AdresseIncoherenceException {
 
-        Optional<PersonneMorale> personneMorale = personneRepository.getPersonneById(personneId);
 
-        Adresse adresse =  AdresseFactory.create(command,personneMorale.get(),localiteRepository);
+        personneMorale = personneRepository.synchoniser(personneMorale);
 
-        personneMorale.get().addAdresse(adresse);
+        //création de la nouvelle adresse
+        Adresse nouvelleAdresse = AdresseFactory.create(command,personneMorale,localiteRepository);
 
-        adressesRepository.creerAdresse(adresse);
+
+
+        try{
+            personneMorale.getAdresses();
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+
+        personneMorale.addAdresseActive(nouvelleAdresse);
+
+        personneRepository.mettreAJour(personneMorale);
         
-        return adresse;
+        return nouvelleAdresse;
 
     }
 

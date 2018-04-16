@@ -27,9 +27,8 @@
         <many-to-one name="localite" column="localite_id" class="ch.globaz.tmmas.personnesservice.domain.model.Localite"
                      cascade="all"/>
         
-        <many-to-one name="personneMorale" class="ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale"
-                     fetch="select">
-            <column name="personne_id" unique="false"/>
+        <many-to-one name="personneMorale" class="ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale">
+            <column name="personne_id" not-null="true"/>
         </many-to-one>
 
 

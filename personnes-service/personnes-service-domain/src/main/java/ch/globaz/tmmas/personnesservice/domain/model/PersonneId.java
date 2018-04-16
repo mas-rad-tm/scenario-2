@@ -9,6 +9,14 @@ import lombok.Getter;
 public class PersonneId implements ValueObject<PersonneId>{
 
 
+	public void setNss(String nss){
+		this.nss = nss;
+	}
+
+	public String getNss(String nss){
+		return nss;
+	}
+
 	private String nss;
 
 	public PersonneId(String nss){
