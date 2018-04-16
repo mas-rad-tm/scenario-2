@@ -8,5 +8,7 @@ public interface AdressesRepository {
 
     Adresse creerAdresse(Adresse adresse);
 
-    Optional<Adresse> getAdresseActiveByPersonne(Long personneId);
+	Adresse mettreAJour(Adresse adresse);
+
+	Optional<Adresse> getAdresseActiveByPersonne(Long personneId);
 }

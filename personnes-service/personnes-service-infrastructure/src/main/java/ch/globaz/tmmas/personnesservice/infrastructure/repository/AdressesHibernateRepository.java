@@ -21,7 +21,10 @@ public class AdressesHibernateRepository extends HibernateRepository implements 
     }
 
 
-
+    @Override
+    public Adresse mettreAJour(Adresse adresse){
+        return (Adresse) getSession().merge(adresse);
+    }
 
 
     @Override
@@ -32,7 +35,8 @@ public class AdressesHibernateRepository extends HibernateRepository implements 
         CriteriaQuery<Adresse> criteria = builder.createQuery(Adresse.class);
         Root<Adresse> root = criteria.from(Adresse.class);
 
-        criteria.select(root).where(builder.equal(root.get("personneMorale.id"), personneId));
+        criteria.select(root).where(builder.equal(root.get("personneMorale"), personneId))
+                .where(builder.equal(root.get("isActive"),Boolean.TRUE));
 
         Query<Adresse> q = getSession().createQuery(criteria);
 

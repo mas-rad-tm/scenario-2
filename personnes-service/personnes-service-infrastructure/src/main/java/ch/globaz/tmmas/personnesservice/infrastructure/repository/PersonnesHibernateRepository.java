@@ -6,6 +6,7 @@ import ch.globaz.tmmas.personnesservice.domain.model.PersonneId;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,20 @@ public class PersonnesHibernateRepository extends HibernateRepository implements
 
 	@Override
 	public PersonneMorale synchoniser(PersonneMorale personneMorale) {
-		getSession().merge(personneMorale);
+		personneMorale = (PersonneMorale) getSession().merge(personneMorale);
 		return personneMorale;
+	}
+
+	@Override
+	public Boolean personneExist(Long personneId){
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<PersonneMorale> criteria = builder.createQuery(PersonneMorale.class);
+		Root<PersonneMorale> root = criteria.from(PersonneMorale.class);
+
+		criteria.select(root.get("id"))
+				.where(builder.equal(root.get("id"), personneId));
+		Query<PersonneMorale> q = getSession().createQuery(criteria);
+		return q.uniqueResult() != null;
 	}
 
 	@Override
@@ -40,8 +53,11 @@ public class PersonnesHibernateRepository extends HibernateRepository implements
 
 	@Override
 	public PersonneMorale mettreAJour(PersonneMorale personneMorale){
-		this.getSession().flush();
-		this.getSession().saveOrUpdate(personneMorale);
+
+
+		//this.getSession().flush();
+		personneMorale = (PersonneMorale) this.getSession().merge(personneMorale);
+		//this.getSession().saveOrUpdate(personneMorale);
 		//this.getSession().update(personneMorale);
 		return personneMorale;
 	}

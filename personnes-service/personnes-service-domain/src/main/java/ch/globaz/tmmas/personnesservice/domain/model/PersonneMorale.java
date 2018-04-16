@@ -9,8 +9,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAmount;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +31,6 @@ public class PersonneMorale implements Entity<PersonneMorale>{
 	private Sexe sexe;
 	@Setter
 	private Adresse adresseActive;
-	private Set adresses;
 
 
 
@@ -49,27 +50,18 @@ public class PersonneMorale implements Entity<PersonneMorale>{
 		this.sexe = sexe;
 	}
 
-	public void addAdresseActive(Adresse nouvelleAdresse) throws AdresseIncoherenceException {
-
-		this.getAdresses();
-
-		if(getAdresses().size() > 0){
-
-			Adresse adresseActiveActuelle = (Adresse) adresses.toArray()[0];
-
-			if(nouvelleAdresse.getDateDebutValidite().isBefore(adresseActiveActuelle.getDateDebutValidite())){
-				throw new AdresseIncoherenceException(String.format("La date de but de la nouvelle adresse [%s] "
-						+ "doit être apprès la date de l'adresse active actuelle %s",nouvelleAdresse.getDateDebutValidite()
-						.format(DateTimeFormatter.ofPattern(GlobalParams.DATE_FORMATTER_PATTER.value))));
-			}
-			this.adresses.add(nouvelleAdresse);
-		}else{
-			this.adresses.add(nouvelleAdresse);
-		}
-
-
-
+	/**
+	private Adresse getAdresseActive(){
+		return getAdresses().stream().filter(adresse -> adresse.getIsActive()).findFirst().get();
 	}
+*/
+	public boolean hasAdressesActiveDefinies(){
+		return this.adresseActive != null;
+	}
+
+
+
+
 	private Long id;
 
 	PersonneMorale(){};

@@ -12,6 +12,9 @@ public interface PersonneService {
 
 	PersonneMorale creerPersonneMorale(CreerPersonneMoraleCommand command) throws PersonnesIncoherenceException;
 
+	@Transactional
+	Boolean checkifPersonneExist(Long personneId);
+
 	Optional<PersonneMorale> getPersonneById(Long id);
 
 	PersonneMorale mettreAJour(PersonneMorale personneMorale);

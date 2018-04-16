@@ -9,6 +9,7 @@ import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
+import ch.globaz.tmmas.personnesservice.domain.service.PersonneMoraleCoherence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,25 +30,32 @@ public class AdressesServiceImpl implements AdressesService {
 
     @Transactional
     @Override
-    public Adresse createAdresse(CreerAdresseCommand command, PersonneMorale personneMorale) throws AdresseIncoherenceException {
+    public Adresse createAdresse(CreerAdresseCommand command, Long personneId) throws AdresseIncoherenceException {
 
 
-        personneMorale = personneRepository.synchoniser(personneMorale);
+        PersonneMorale personneMorale = personneRepository.getPersonneById(personneId).get();
+        personneMorale.setAdresseActive(
+                adressesRepository.getAdresseActiveByPersonne(personneId)
+                .orElseGet(()->{
+                    return null;
+                })
+        );
 
         //création de la nouvelle adresse
         Adresse nouvelleAdresse = AdresseFactory.create(command,personneMorale,localiteRepository);
 
 
-
+/**
         try{
-            personneMorale.getAdresses();
+            System.out.println(personneMorale.getAdresses());
         }catch (Exception e ){
             e.printStackTrace();
         }
+*/
+        nouvelleAdresse = PersonneMoraleCoherence.addAdresseToPersonneMorale(personneMorale,nouvelleAdresse,
+                adressesRepository);
 
-        personneMorale.addAdresseActive(nouvelleAdresse);
-
-        personneRepository.mettreAJour(personneMorale);
+        //personneRepository.mettreAJour(personneMorale);
         
         return nouvelleAdresse;
 

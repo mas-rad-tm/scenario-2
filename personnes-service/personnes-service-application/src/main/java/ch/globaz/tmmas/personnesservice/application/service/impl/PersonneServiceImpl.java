@@ -1,5 +1,6 @@
 package ch.globaz.tmmas.personnesservice.application.service.impl;
 
+import ch.globaz.tmmas.personnesservice.application.api.web.controller.PersonnesController;
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
 import ch.globaz.tmmas.personnesservice.domain.exception.PersonnesIncoherenceException;
@@ -7,14 +8,19 @@ import ch.globaz.tmmas.personnesservice.domain.factory.PersonneMoraleFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class PersonneServiceImpl implements PersonneService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonneServiceImpl.class);
 
 	@Autowired
 	PersonneRepository personneRepository;
@@ -31,11 +37,23 @@ public class PersonneServiceImpl implements PersonneService {
 
 	@Transactional
 	@Override
+	public Boolean checkifPersonneExist(Long personneId){
+
+		LOGGER.info("Check if personne exist, id {}", personneId);
+
+		return personneRepository.personneExist(personneId);
+	}
+
+	@Transactional
+	@Override
 	public Optional<PersonneMorale> getPersonneById(Long id) {
 
 		return personneRepository.getPersonneById(id).map(personne -> {
 
-			personne.getAdresses();
+			//Set<Adresse> adresse = personne.getAdresses();
+
+			//System.out.println(personne.getAdresses());
+
 			return Optional.of(personne);
 		}).orElseGet(Optional::empty);
 

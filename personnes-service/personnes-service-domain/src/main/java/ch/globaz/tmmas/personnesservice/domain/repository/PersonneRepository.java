@@ -11,7 +11,9 @@ public interface PersonneRepository {
 
     PersonneMorale synchoniser(PersonneMorale personneMorale);
 
-    Optional<PersonneMorale> getPersonneById(Long id);
+	Boolean personneExist(Long personneId);
+
+	Optional<PersonneMorale> getPersonneById(Long id);
 
     PersonneMorale mettreAJour(PersonneMorale personneMorale);
 

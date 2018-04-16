@@ -6,6 +6,7 @@ import ch.globaz.tmmas.personnesservice.application.api.web.resources.localdate.
 import ch.globaz.tmmas.personnesservice.application.api.web.resources.localdate.ZonedDateSerializer;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.Localite;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

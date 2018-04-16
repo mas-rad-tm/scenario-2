@@ -1,5 +1,6 @@
 package ch.globaz.tmmas.personnesservice.application.api.web.resources.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 @Getter

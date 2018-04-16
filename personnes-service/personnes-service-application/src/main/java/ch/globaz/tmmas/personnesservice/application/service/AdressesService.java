@@ -14,5 +14,5 @@ public interface AdressesService {
 
 
 
-    Adresse createAdresse(CreerAdresseCommand command, PersonneMorale personneMorale) throws AdresseIncoherenceException;
+    Adresse createAdresse(CreerAdresseCommand command, Long personneId) throws AdresseIncoherenceException;
 }

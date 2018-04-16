@@ -78,13 +78,13 @@ public class PersonnesController {
         LOGGER.info("creerAdresses() for personnid: {}, command:{}", personneId, command);
 
         //si pas de ressources 404
-        Optional<PersonneMorale> optionalPersonneMorale = personneService.getPersonneById(personneId);
+        Boolean personneExist = personneService.checkifPersonneExist(personneId);
 
 
-        if(optionalPersonneMorale.isPresent()){
+        if(personneExist){
 
             //recup de la personne
-            PersonneMorale personneMorale = optionalPersonneMorale.get();
+            //PersonneMorale personneMorale = optionalPersonneMorale.get();
 
 
             //Optional<Adresse> adresseActive = adressesRepository.getAdresseActiveByPersonne(personneId);
@@ -95,7 +95,7 @@ public class PersonnesController {
 
             //adressesRepository.creerAdresse(personneMorale.getAdresseActive());
 
-            Adresse nouvelleAdresses = adresseService.createAdresse(command,personneMorale);
+            Adresse nouvelleAdresses = adresseService.createAdresse(command,personneId);
 
             ResourceObject adresseResource = new AdresseResourceAttributes(nouvelleAdresses)
                     .buildResourceObject();

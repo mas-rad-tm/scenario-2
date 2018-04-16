@@ -31,6 +31,11 @@ public class Adresse implements ValueObject<Adresse> {
 	}
 
 
+	public Adresse desactive(ZonedDateTime dateFinvalidite){
+		this.isActive = Boolean.FALSE;
+		this.dateFinvalidite = dateFinvalidite;
+		return this;
+	}
 	@Override
 	public boolean sameValueAs(Adresse other) {
 		return false;
