@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * <p>
  * ${VERSION}
  */
-class LocalDateSerializer extends StdSerializer<LocalDate> {
+public class LocalDateSerializer extends StdSerializer<LocalDate> {
 
     private final static DateTimeFormatter formatter
             = DateTimeFormatter.ofPattern(GlobalParams.DATE_FORMATTER_PATTER.value);

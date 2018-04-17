@@ -2,11 +2,9 @@ package ch.globaz.tmmas.rentesservice.application.service;
 
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
-import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.command.*;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -20,6 +18,10 @@ public interface DossierService {
     Optional<Dossier> getById(Long id);
 
 	Dossier creerDossier(CreerDossierCommand command);
+
+
+	@Transactional
+	Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command);
 
 	Optional<DossierResourceAttributes> miseAJourDossier(MiseAJourDossierCommand command, Long dossierId);
 

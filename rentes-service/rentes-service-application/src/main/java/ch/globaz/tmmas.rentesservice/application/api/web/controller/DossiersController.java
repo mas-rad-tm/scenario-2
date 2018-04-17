@@ -10,6 +10,7 @@ import ch.globaz.tmmas.rentesservice.application.event.InternalCommandPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierWithPersonneCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,8 @@ class DossiersController {
 	 * @param command la commande de création contenant les informations
 	 * @return une instance de <code>ResponseEntity</code>
 	 */
+
+	/**
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command){
 		LOGGER.info("creerDossier(), command= {}",command);
@@ -72,6 +75,25 @@ class DossiersController {
 		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
 
 	}
+*/
+
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command){
+		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
+
+		commandPublisher.publishCommand(command);
+
+		ResourceObject dossierResource = new DossierResourceAttributes(
+				dossierService.creerDossierWithPersonne(command))
+				.buildResourceObject();
+
+		putSelfLink(dossierResource);
+
+		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
+
+	}
+
+
 
 	@RequestMapping(value = "/{dossierId}", method = RequestMethod.PATCH, consumes = MediaType
 			.APPLICATION_JSON_VALUE)

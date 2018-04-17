@@ -61,6 +61,11 @@
             <artifactId>tomcat-jdbc</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.squareup.retrofit</groupId>
+            <artifactId>retrofit</artifactId>
+        </dependency>
+
 
     </dependencies>
 </project>

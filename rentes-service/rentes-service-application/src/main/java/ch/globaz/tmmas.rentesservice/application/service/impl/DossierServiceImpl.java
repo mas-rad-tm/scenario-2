@@ -4,10 +4,7 @@ import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResour
 import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.event.impl.DomainEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
-import ch.globaz.tmmas.rentesservice.domain.command.CloreDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
-import ch.globaz.tmmas.rentesservice.domain.command.ValiderDossierCommand;
+import ch.globaz.tmmas.rentesservice.domain.command.*;
 import ch.globaz.tmmas.rentesservice.domain.common.specification.Specification;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierClotEvent;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierCreeEvent;
@@ -15,10 +12,12 @@ import ch.globaz.tmmas.rentesservice.domain.event.DossierValideeEvent;
 import ch.globaz.tmmas.rentesservice.domain.factory.DossierFactory;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.DossierStatus;
+import ch.globaz.tmmas.rentesservice.domain.model.personne.Requerant;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateCloturePlusRecenteDateValidation;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateValidationPlusRecenteDateEnregistrement;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespond;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
+import ch.globaz.tmmas.rentesservice.domain.service.DossierPersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +34,9 @@ public class DossierServiceImpl implements DossierService {
 
 	@Autowired
 	InternalEventPublisher eventPublisher;
+
+	@Autowired
+	DossierPersonneService personneService;
 
 
 	@Transactional
@@ -63,11 +65,32 @@ public class DossierServiceImpl implements DossierService {
 	@Override
 	public Dossier creerDossier(CreerDossierCommand command) {
 
-		Dossier dossier = DossierFactory.create(command);
+		if(personneService.getPersonneById(command.getRequerantId()) != null){
+			Dossier dossier = DossierFactory.create(command);
 
-		dossier =  repository.initieDossier(dossier);
+			dossier =  repository.initieDossier(dossier);
 
-		eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
+			eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
+
+			return dossier;
+		}else{
+			return null;
+		}
+
+
+
+	}
+
+
+
+	@Transactional
+	@Override
+	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) {
+
+
+		Requerant requerant = personneService.createDossierwithPersonne(command);
+
+		Dossier dossier = DossierFactory.create(command.getDossier());
 
 		return dossier;
 

@@ -104,6 +104,38 @@ public class PersonnesController {
 
     }
 
+    @RequestMapping(value="/{personneId}", method = RequestMethod.GET)
+    public ResponseEntity getPersonneById(@PathVariable Long
+                                                           personneId) throws AdresseIncoherenceException {
+
+        LOGGER.info("récupérerPersonnes() for personnid: {}", personneId);
+
+
+        //si pas de ressources 404
+        Boolean personneExist = personneService.checkifPersonneExist(personneId);
+
+
+        if(personneExist){
+
+            PersonneMorale personneMorale =  personneService.getPersonneById(personneId).get();
+
+
+            ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personneMorale)
+                    .buildResourceObject();
+
+
+            return new ResponseEntity<>(persoResourceObject, HttpStatus.OK);
+
+
+        }else{
+            return new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No persone found with id "
+                    + personneId),HttpStatus.NOT_FOUND);
+        }
+
+
+
+    }
+
     @RequestMapping(value="/{personneId}/adresses", method = RequestMethod.GET)
     public ResponseEntity listerAdresseForPersonne(@PathVariable Long
             personneId) throws AdresseIncoherenceException {
