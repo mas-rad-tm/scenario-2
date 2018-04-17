@@ -2,6 +2,7 @@ package ch.globaz.tmmas.personnesservice.domain.repository;
 
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AdressesRepository {
@@ -11,4 +12,6 @@ public interface AdressesRepository {
 	Adresse mettreAJour(Adresse adresse);
 
 	Optional<Adresse> getAdresseActiveByPersonne(Long personneId);
+
+	List<Adresse> getAdresseaByPersonne(Long personneId);
 }

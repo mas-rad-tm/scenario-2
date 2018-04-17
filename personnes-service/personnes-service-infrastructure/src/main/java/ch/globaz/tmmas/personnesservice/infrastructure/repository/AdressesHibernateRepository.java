@@ -51,4 +51,22 @@ public class AdressesHibernateRepository extends HibernateRepository implements 
 
         return Optional.ofNullable(adresseActive);
     }
+
+    @Override
+    public List<Adresse> getAdresseaByPersonne(Long personneId) {
+
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+        CriteriaQuery<Adresse> criteria = builder.createQuery(Adresse.class);
+        Root<Adresse> root = criteria.from(Adresse.class);
+
+        criteria.select(root).where(builder.equal(root.get("personneMorale"), personneId));
+
+        Query<Adresse> q = getSession().createQuery(criteria);
+
+        List<Adresse> adresses = q.getResultList();
+
+
+        return adresses;
+    }
 }

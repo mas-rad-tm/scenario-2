@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/personnes")
@@ -91,6 +93,39 @@ public class PersonnesController {
                     .buildResourceObject();
 
             return new ResponseEntity<>(new ResponseResource(adresseResource), putLocationHeader(adresseResource), HttpStatus.CREATED);
+
+
+        }else{
+            return new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No persone found with id "
+                    + personneId),HttpStatus.NOT_FOUND);
+        }
+
+
+
+    }
+
+    @RequestMapping(value="/{personneId}/adresses", method = RequestMethod.GET)
+    public ResponseEntity listerAdresseForPersonne(@PathVariable Long
+            personneId) throws AdresseIncoherenceException {
+
+        LOGGER.info("listerAdresses() for personnid: {}", personneId);
+
+
+        //si pas de ressources 404
+        Boolean personneExist = personneService.checkifPersonneExist(personneId);
+
+
+        if(personneExist){
+
+            List<Adresse> adresses = adresseService.listerAdresseForPersonne(personneId);
+
+            List<ResourceObject> adressesResource = adresses.stream().map(adresse -> {
+                return new AdresseResourceAttributes(adresse).buildResourceObject();
+            }).collect(Collectors.toList());
+
+
+
+            return new ResponseEntity<>(adressesResource, HttpStatus.OK);
 
 
         }else{

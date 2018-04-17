@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class AdressesServiceImpl implements AdressesService {
 
@@ -39,9 +41,9 @@ public class AdressesServiceImpl implements AdressesService {
         PersonneMorale personneMorale = personneRepository.getPersonneById(personneId).get();
         personneMorale.setAdresseActive(
                 adressesRepository.getAdresseActiveByPersonne(personneId)
-                .orElseGet(()->{
-                    return null;
-                })
+                        .orElseGet(()->{
+                            return null;
+                        })
         );
 
         //création de la nouvelle adresse
@@ -56,6 +58,21 @@ public class AdressesServiceImpl implements AdressesService {
         return nouvelleAdresse;
 
     }
+    @Transactional
+    @Override
+    public List<Adresse> listerAdresseForPersonne(Long personneId) throws
+            AdresseIncoherenceException {
+
+
+
+        //création de la nouvelle adresse
+        List<Adresse> adresses = adressesRepository.getAdresseaByPersonne(personneId);
+
+
+        return adresses;
+
+    }
+
 
 
 }
