@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class DossierServiceImpl implements DossierService {
 	 */
 	@Transactional
 	@Override
-	public Dossier creerDossier(CreerDossierCommand command) {
+	public Dossier creerDossier(CreerDossierCommand command) throws IOException {
 
 		if(personneService.getPersonneById(command.getRequerantId()) != null){
 			Dossier dossier = DossierFactory.create(command);
@@ -85,7 +86,7 @@ public class DossierServiceImpl implements DossierService {
 
 	@Transactional
 	@Override
-	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) {
+	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
 
 
 		Requerant requerant = personneService.createDossierwithPersonne(command);

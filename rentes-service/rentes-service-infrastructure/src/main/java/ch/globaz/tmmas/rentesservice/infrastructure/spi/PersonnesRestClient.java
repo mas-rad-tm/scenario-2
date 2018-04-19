@@ -1,22 +1,22 @@
 package ch.globaz.tmmas.rentesservice.infrastructure.spi;
 
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierWithPersonneCommand;
-import ch.globaz.tmmas.rentesservice.domain.model.personne.DossierRequerant;
 import ch.globaz.tmmas.rentesservice.domain.model.personne.Requerant;
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface PersonnesRestClient {
 
 
 
-	@GET("/personnes/{personneId}")
-	Requerant getPersonneById(@Path("personneId") Long personneId);
+	@GET("personnes/{personneId}")
+	Call<Requerant> getPersonneById(@Path("personneId") Long personneId);
 
-	@POST("/personnes")
-	Requerant createPersonne(@Body CreerDossierWithPersonneCommand.Personne command);
+	@POST("personnes")
+	Call<Requerant> createPersonne(@Body CreerDossierWithPersonneCommand.Personne command);
 
 
 

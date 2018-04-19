@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,9 +60,10 @@ class DossiersController {
 	 * @return une instance de <code>ResponseEntity</code>
 	 */
 
+
 	/**
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command){
+	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command) throws IOException {
 		LOGGER.info("creerDossier(), command= {}",command);
 
 		commandPublisher.publishCommand(command);
@@ -75,10 +77,11 @@ class DossiersController {
 		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
 
 	}
-*/
+	 */
+
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command){
+	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException {
 		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
 
 		commandPublisher.publishCommand(command);

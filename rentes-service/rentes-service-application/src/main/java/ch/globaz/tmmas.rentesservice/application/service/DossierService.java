@@ -7,6 +7,7 @@ import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +18,11 @@ public interface DossierService {
 
     Optional<Dossier> getById(Long id);
 
-	Dossier creerDossier(CreerDossierCommand command);
+	Dossier creerDossier(CreerDossierCommand command) throws IOException;
 
 
 	@Transactional
-	Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command);
+	Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException;
 
 	Optional<DossierResourceAttributes> miseAJourDossier(MiseAJourDossierCommand command, Long dossierId);
 

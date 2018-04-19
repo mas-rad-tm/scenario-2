@@ -1,7 +1,8 @@
 package ch.globaz.tmmas.rentesservice.domain.model.personne;
 
-import ch.globaz.tmmas.rentesservice.domain.common.localdate.LocalDateDeserializer;
-import ch.globaz.tmmas.rentesservice.domain.common.localdate.LocalDateSerializer;
+
+import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateDeserializer;
+import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,8 +18,8 @@ public class Requerant {
 	@JsonProperty("id")
 	private Long technicalId;
 
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = ZonedDateDeserializer.class)
+	@JsonSerialize(using = ZonedDateSerializer.class)
 	private ZonedDateTime dateNaissance;
 
 

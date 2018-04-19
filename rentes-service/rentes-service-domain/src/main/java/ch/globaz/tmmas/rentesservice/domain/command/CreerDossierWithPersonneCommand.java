@@ -1,6 +1,12 @@
 package ch.globaz.tmmas.rentesservice.domain.command;
 
 
+
+
+import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateDeserializer;
+import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
