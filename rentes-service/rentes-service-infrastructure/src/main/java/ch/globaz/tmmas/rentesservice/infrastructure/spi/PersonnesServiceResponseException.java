@@ -5,11 +5,9 @@ import okhttp3.ResponseBody;
 
 public class PersonnesServiceResponseException extends Exception {
 
-	@Getter
-	private ResponseBody errorBody;
 
-	public PersonnesServiceResponseException(ResponseBody msg){
-		super();
-		this.errorBody = msg;
+
+	public PersonnesServiceResponseException(String msg){
+		super(msg);
 	}
 }

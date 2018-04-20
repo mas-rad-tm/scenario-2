@@ -18,6 +18,8 @@ public class ErrorResponseResource {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<String> erreurs;
 
+	ErrorResponseResource(){}
+
 	public ErrorResponseResource(HttpStatus status, String message, List<String> erreurs) {
 		this.erreurs = erreurs;
 		this.message = message;

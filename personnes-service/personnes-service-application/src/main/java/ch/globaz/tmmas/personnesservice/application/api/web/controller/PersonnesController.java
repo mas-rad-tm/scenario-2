@@ -124,7 +124,7 @@ public class PersonnesController {
                     .buildResourceObject();
 
 
-            return new ResponseEntity<>(persoResourceObject, HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseResource(persoResourceObject), HttpStatus.OK);
 
 
         }else{

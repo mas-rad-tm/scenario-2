@@ -45,7 +45,11 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 	public PersonneMoraleResource getPersonneById(Long personneId) throws IOException {
 
 		Call<PersonnesServiceResponse> call = client.getPersonneById(personneId);
-		PersonneMoraleResource requerant = call.execute().body().getData();
+
+		Response<PersonnesServiceResponse> reponse = call.execute();
+
+
+		PersonneMoraleResource requerant = reponse.body().getData();
 		return requerant;
 
 	}
@@ -55,16 +59,14 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 
 		Call<PersonnesServiceResponse> call = client.createPersonne(command.getPersonneCommand());
 
-		Response reponse = call.execute();
+		Response<PersonnesServiceResponse> reponse = call.execute();
 
-		//TODO a checker
-		reponse.errorBody().string();
 
-		if(reponse.code() != HttpStatus.OK.value()){
-			throw new PersonnesServiceResponseException(reponse.errorBody());
+		if(reponse.code() != HttpStatus.CREATED.value()){
+			throw new PersonnesServiceResponseException(reponse.errorBody().string());
 		}
 
-		PersonneMoraleResource requerant = call.execute().body().getData();
+		PersonneMoraleResource requerant = reponse.body().getData();
 		return requerant;
 
 	}
