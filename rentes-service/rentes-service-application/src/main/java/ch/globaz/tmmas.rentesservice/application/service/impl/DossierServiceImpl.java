@@ -2,7 +2,6 @@ package ch.globaz.tmmas.rentesservice.application.service.impl;
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
 import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
-import ch.globaz.tmmas.rentesservice.application.event.impl.DomainEventPublisher;
 import ch.globaz.tmmas.rentesservice.application.service.DossierService;
 import ch.globaz.tmmas.rentesservice.domain.command.*;
 import ch.globaz.tmmas.rentesservice.domain.common.specification.Specification;
@@ -12,12 +11,12 @@ import ch.globaz.tmmas.rentesservice.domain.event.DossierValideeEvent;
 import ch.globaz.tmmas.rentesservice.domain.factory.DossierFactory;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.Dossier;
 import ch.globaz.tmmas.rentesservice.domain.model.dossier.DossierStatus;
-import ch.globaz.tmmas.rentesservice.domain.model.personne.Requerant;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateCloturePlusRecenteDateValidation;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateValidationPlusRecenteDateEnregistrement;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespond;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
-import ch.globaz.tmmas.rentesservice.domain.service.DossierPersonneService;
+import ch.globaz.tmmas.rentesservice.infrastructure.spi.DossierPersonneService;
+import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonneMoraleResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,7 +88,7 @@ public class DossierServiceImpl implements DossierService {
 	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
 
 
-		Requerant requerant = personneService.createDossierwithPersonne(command);
+		PersonneMoraleResource requerant = personneService.createDossierwithPersonne(command);
 
 		Dossier dossier = DossierFactory.create(command.getDossier());
 

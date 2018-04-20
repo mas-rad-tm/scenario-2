@@ -1,22 +1,17 @@
 package ch.globaz.tmmas.rentesservice.infrastructure.spi;
 
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierWithPersonneCommand;
-import ch.globaz.tmmas.rentesservice.domain.model.personne.Requerant;
-import ch.globaz.tmmas.rentesservice.domain.service.DossierPersonneService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.stereotype.Component;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 
 import java.io.IOException;
-import java.util.List;
 
 
 @Component
@@ -34,7 +29,7 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 		httpClient.addInterceptor(interceptor);
 
 		retrofit = new Retrofit.Builder()
-				//.addConverterFactory(GsonConverterfactory.create())
+				.addConverterFactory(JacksonConverterFactory.create())
 				//.addCallAdapterFactory(Rx.create())
 				.client(httpClient.build())
 				.baseUrl(ENDPOINT).build();
@@ -45,19 +40,19 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 
 
 	@Override
-	public Requerant getPersonneById(Long personneId) throws IOException {
+	public PersonneMoraleResource getPersonneById(Long personneId) throws IOException {
 
-		Call<Requerant> call = client.getPersonneById(personneId);
-		Requerant requerant = call.execute().body();
+		Call<PersonneMoraleResource> call = client.getPersonneById(personneId);
+		PersonneMoraleResource requerant = call.execute().body();
 		return requerant;
 
 	}
 
 	@Override
-	public Requerant createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
+	public PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
 
-		Call<Requerant> call = client.createPersonne(command.getPersonne());
-		Requerant requerant = call.execute().body();
+		Call<PersonneMoraleResource> call = client.createPersonne(command.getPersonne());
+		PersonneMoraleResource requerant = call.execute().body();
 		return requerant;
 
 	}

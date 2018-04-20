@@ -8,19 +8,19 @@ import lombok.Getter;
 
 @JsonPropertyOrder({"id","type","attributes","links","relationship"})
 @Getter
-public  class ResourceObject {
+public  class PersonneMoraleResource {
 
     @JsonProperty("id")
     private Long technicalId;
     private String type;
-    private ResourceAttributes attributes;
+    private PersonneMoraleResourceAttributes attributes;
 
-    public ResourceObject(Long id, String type, ResourceAttributes attributes) {
+    public PersonneMoraleResource(Long id, String type, PersonneMoraleResourceAttributes attributes) {
         this.technicalId = id;
         this.type = type;
         this.attributes = attributes;
     }
 
-    public ResourceObject() {}
+    public PersonneMoraleResource() {}
 
 }

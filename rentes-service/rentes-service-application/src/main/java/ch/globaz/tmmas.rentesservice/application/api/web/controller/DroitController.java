@@ -95,8 +95,8 @@ public class DroitController {
         if(optionnalDossier.isPresent()){
             List<DroitResourceAttributes> droitRessource = droitService.getByIdDossier(dossierId).stream().collect(Collectors.toList());
 
-            List<ResourceObject> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
-                ResourceObject resourceObject = droitResourceAttributes.buildResourceObject();
+            List<PersonneMoraleResource> droitsResourceObject = droitRessource.stream().map(droitResourceAttributes -> {
+                PersonneMoraleResource resourceObject = droitResourceAttributes.buildResourceObject();
                 putSelfLink(dossierId,resourceObject);
                 return resourceObject;
             }).collect(Collectors.toList());
