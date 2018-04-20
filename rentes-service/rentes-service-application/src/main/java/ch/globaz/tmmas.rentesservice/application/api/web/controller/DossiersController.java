@@ -61,7 +61,7 @@ class DossiersController {
 	 */
 
 
-	/**
+
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command) throws IOException {
 		LOGGER.info("creerDossier(), command= {}",command);
@@ -77,10 +77,10 @@ class DossiersController {
 		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
 
 	}
-	 */
 
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/withPersonne", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException {
 		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
 

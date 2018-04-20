@@ -37,7 +37,10 @@ public class PersonneMoraleResourceAttributes implements ResourceAttributes {
 
 	@JsonDeserialize(using = ZonedDateDeserializer.class)
 	@JsonSerialize(using = ZonedDateSerializer.class)
-	private ZonedDateTime dateNaissance;
+	private ZonedDateTime formatted_dateNaissance;
+
+	private String iso_dateNaissance;
+
 
 
 
@@ -49,7 +52,8 @@ public class PersonneMoraleResourceAttributes implements ResourceAttributes {
 	public PersonneMoraleResourceAttributes(PersonneMorale personneMorale){
 
 
-		this.dateNaissance = personneMorale.getDateNaissance();
+		this.formatted_dateNaissance = personneMorale.getDateNaissance();
+		this.iso_dateNaissance = personneMorale.getDateNaissance().toString();
 		this.technicalId = personneMorale.getId();
 		this.nom = personneMorale.getNom();
 		this.prenom = personneMorale.getPrenom();

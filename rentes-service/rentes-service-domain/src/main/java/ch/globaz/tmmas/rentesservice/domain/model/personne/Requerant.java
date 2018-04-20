@@ -10,10 +10,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.ZonedDateTime;
 
 public class Requerant {
+	private Long id;
 	private String sexe;
 	private String nom;
 	private String prenom;
 	private String nss;
+	private String type;
+
 
 	@JsonProperty("id")
 	private Long technicalId;

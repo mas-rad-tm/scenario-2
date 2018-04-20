@@ -3,6 +3,7 @@ package ch.globaz.tmmas.rentesservice.domain.command;
 
 
 
+
 import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateDeserializer;
 import ch.globaz.tmmas.rentesservice.domain.common.localdate.ZonedDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -39,6 +40,8 @@ public class CreerDossierWithPersonneCommand implements DomainCommand {
 		@NotNull
 		private String prenom;
 		@NotNull
+		@JsonDeserialize(using = ZonedDateDeserializer.class)
+		@JsonSerialize(using = ZonedDateSerializer.class)
 		private ZonedDateTime dateNaissance;
 		@NotNull
 		private String sexe;

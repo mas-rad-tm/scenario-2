@@ -1,4 +1,4 @@
-package ch.globaz.tmmas.rentesservice.domain.common.localdate;
+package ch.globaz.tmmas.rentesservice.infrastructure.spi.localdate;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -23,7 +23,7 @@ public class ZonedDateDeserializer extends StdDeserializer<ZonedDateTime> {
 
 
     protected ZonedDateDeserializer() {
-        super(LocalDate.class);
+        super(ZonedDateTime.class);
     }
 
 
@@ -31,6 +31,8 @@ public class ZonedDateDeserializer extends StdDeserializer<ZonedDateTime> {
     public ZonedDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException{
         DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+
+        String val = jp.readValuesAs(String.class).toString();
 
         return ZonedDateTime.parse(jp.readValueAs(String.class),formatter);
     }
