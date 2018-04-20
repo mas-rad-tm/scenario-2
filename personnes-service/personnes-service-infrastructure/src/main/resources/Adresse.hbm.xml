@@ -20,7 +20,7 @@
 
         <property name="dateDebutValidite" column="dateDebutValidite" not-null="true"/>
 
-        <property name="dateFinvalidite" column="dateFinvalidite" not-null="false"/>
+        <property name="dateFinValidite" column="dateFinvalidite" not-null="false"/>
 
         <property name="isActive" column="isActive" not-null="true"/>
 

@@ -17,6 +17,7 @@ import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespon
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
 import ch.globaz.tmmas.rentesservice.infrastructure.spi.DossierPersonneService;
 import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonneMoraleResource;
+import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,12 +86,14 @@ public class DossierServiceImpl implements DossierService {
 
 	@Transactional
 	@Override
-	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
+	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 
 
 		PersonneMoraleResource requerant = personneService.createDossierwithPersonne(command);
 
-		Dossier dossier = DossierFactory.create(command.getDossier());
+		Dossier dossier = DossierFactory.create(command.getDossierCommand(),requerant.getTechnicalId());
+
+		dossier = repository.initieDossier(dossier);
 
 		return dossier;
 

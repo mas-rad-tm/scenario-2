@@ -12,6 +12,7 @@ import ch.globaz.tmmas.rentesservice.application.service.DroitService;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierWithPersonneCommand;
 import ch.globaz.tmmas.rentesservice.domain.command.MiseAJourDossierCommand;
+import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ class DossiersController {
 
 
 	@RequestMapping(value = "/withPersonne", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException {
+	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
 
 		commandPublisher.publishCommand(command);

@@ -2,21 +2,12 @@ package ch.globaz.tmmas.personnesservice.application.api.web.resources;
 
 import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.ResourceAttributes;
 import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.ResourceObject;
-import ch.globaz.tmmas.personnesservice.application.api.web.resources.localdate.ZonedDateDeserializer;
-import ch.globaz.tmmas.personnesservice.application.api.web.resources.localdate.ZonedDateSerializer;
+import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.DateFormatter;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.Localite;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
-
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static ch.globaz.tmmas.personnesservice.application.api.web.resources.localdate.DateFormatter.DATE_FORMAT;
 
 
 /**
@@ -25,7 +16,6 @@ import static ch.globaz.tmmas.personnesservice.application.api.web.resources.loc
 @Getter
 public class AdresseResourceAttributes implements ResourceAttributes {
 
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
 	private Localite localite;
 
@@ -36,14 +26,13 @@ public class AdresseResourceAttributes implements ResourceAttributes {
 	@JsonProperty("id")
 	private Long technicalId;
 
-	@JsonDeserialize(using = ZonedDateDeserializer.class)
-	@JsonSerialize(using = ZonedDateSerializer.class)
-	private ZonedDateTime dateDebutValidite;
+	private String formatedDateDebutValidite;
+	private String isoDateDebutValidite;
 
-	@JsonDeserialize(using = ZonedDateDeserializer.class)
-	@JsonSerialize(using = ZonedDateSerializer.class)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private ZonedDateTime dateFinValidite;
+	private String formatedDateFinValidite;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String isoDateFinValidite;
 
 
 
@@ -55,8 +44,16 @@ public class AdresseResourceAttributes implements ResourceAttributes {
 	public AdresseResourceAttributes(Adresse adresse){
 
 
-		this.dateDebutValidite = adresse.getDateDebutValidite();
-		this.dateFinValidite = adresse.getDateFinvalidite();
+		this.formatedDateDebutValidite = adresse.getDateDebutValidite().format(DateFormatter.DATE_FORMAT);
+		this.isoDateDebutValidite = adresse.getDateDebutValidite().toString();
+
+		if(adresse.getDateFinValidite() != null){
+			this.formatedDateFinValidite = adresse.getDateFinValidite().format(DateFormatter.DATE_FORMAT);
+			this.isoDateFinValidite = adresse.getDateFinValidite().toString();
+		}
+
+
+
 		this.technicalId = adresse.getId();
 		this.rue = adresse.getRue();
 		this.isActive= adresse.getIsActive();

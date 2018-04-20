@@ -9,5 +9,5 @@ public interface DossierPersonneService {
 
 	PersonneMoraleResource getPersonneById(Long personneId) throws IOException;
 
-	PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException;
+	PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException;
 }

@@ -12,10 +12,10 @@ public interface PersonnesRestClient {
 
 
 	@GET("personnes/{personneId}")
-	Call<PersonneMoraleResource> getPersonneById(@Path("personneId") Long personneId);
+	Call<PersonnesServiceResponse> getPersonneById(@Path("personneId") Long personneId);
 
 	@POST("personnes")
-	Call<PersonneMoraleResource> createPersonne(@Body CreerDossierWithPersonneCommand.Personne command);
+	Call<PersonnesServiceResponse> createPersonne(@Body CreerDossierWithPersonneCommand.PersonneCommand command);
 
 
 

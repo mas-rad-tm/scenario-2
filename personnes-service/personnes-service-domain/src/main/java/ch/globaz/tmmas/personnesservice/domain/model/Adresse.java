@@ -15,7 +15,7 @@ public class Adresse implements ValueObject<Adresse> {
 	private Integer numero;
 	private String complement;
 	private ZonedDateTime dateDebutValidite;
-	private ZonedDateTime dateFinvalidite;
+	private ZonedDateTime dateFinValidite;
 	private Boolean isActive;
 	private PersonneMorale personneMorale;
 
@@ -33,7 +33,7 @@ public class Adresse implements ValueObject<Adresse> {
 
 	public Adresse desactive(ZonedDateTime dateFinvalidite){
 		this.isActive = Boolean.FALSE;
-		this.dateFinvalidite = dateFinvalidite.minus(Period.ofDays(1));
+		this.dateFinValidite = dateFinvalidite.minus(Period.ofDays(1));
 		return this;
 	}
 	@Override

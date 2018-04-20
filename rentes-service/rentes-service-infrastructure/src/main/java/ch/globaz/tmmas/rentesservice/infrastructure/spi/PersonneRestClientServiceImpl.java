@@ -4,9 +4,11 @@ import ch.globaz.tmmas.rentesservice.domain.command.CreerDossierWithPersonneComm
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -42,17 +44,27 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 	@Override
 	public PersonneMoraleResource getPersonneById(Long personneId) throws IOException {
 
-		Call<PersonneMoraleResource> call = client.getPersonneById(personneId);
-		PersonneMoraleResource requerant = call.execute().body();
+		Call<PersonnesServiceResponse> call = client.getPersonneById(personneId);
+		PersonneMoraleResource requerant = call.execute().body().getData();
 		return requerant;
 
 	}
 
 	@Override
-	public PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException {
+	public PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 
-		Call<PersonneMoraleResource> call = client.createPersonne(command.getPersonne());
-		PersonneMoraleResource requerant = call.execute().body();
+		Call<PersonnesServiceResponse> call = client.createPersonne(command.getPersonneCommand());
+
+		Response reponse = call.execute();
+
+		//TODO a checker
+		reponse.errorBody().string();
+
+		if(reponse.code() != HttpStatus.OK.value()){
+			throw new PersonnesServiceResponseException(reponse.errorBody());
+		}
+
+		PersonneMoraleResource requerant = call.execute().body().getData();
 		return requerant;
 
 	}

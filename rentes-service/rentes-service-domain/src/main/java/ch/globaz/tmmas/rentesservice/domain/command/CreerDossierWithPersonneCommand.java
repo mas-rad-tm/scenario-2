@@ -21,18 +21,29 @@ import java.time.ZonedDateTime;
 public class CreerDossierWithPersonneCommand implements DomainCommand {
 
 
-	private CreerDossierCommand dossier = new CreerDossierCommand();
+	private DossierCommand dossierCommand = new DossierCommand();
 
-	private Personne personne = new Personne();
+	private PersonneCommand personneCommand = new PersonneCommand();
 
 	CreerDossierWithPersonneCommand() {}
 
+	@EqualsAndHashCode
+	@Getter
+	@ToString
+	public class DossierCommand{
+
+		@NotNull
+		@JsonDeserialize(using = ZonedDateDeserializer.class)
+		@JsonSerialize(using = ZonedDateSerializer.class)
+		private ZonedDateTime dateEnregistrement;
+
+	}
 
 
 	@EqualsAndHashCode
 	@Getter
 	@ToString
-	public class Personne{
+	public class PersonneCommand{
 		@NotNull
 		private String nss;
 		@NotNull

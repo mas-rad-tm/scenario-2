@@ -30,15 +30,10 @@ public class PersonneMoraleResourceAttributes {
 	@JsonProperty("id")
 	private Long technicalId;
 
-	@JsonDeserialize(using = ZonedDateDeserializer.class)
-	//@JsonSerialize(using = ZonedDateSerializer.class)
-	private ZonedDateTime iso_dateNaissance;
 
-	private String formatted_dateNaissance;
+	private String isoDateNaissance;
+	private String formattedDateNaissance;
 
-
-
-	private Boolean isActive;
 
 	public PersonneMoraleResourceAttributes(){}
 

@@ -2,6 +2,7 @@ package ch.globaz.tmmas.rentesservice.application.api.web.exception;
 
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.common.ErrorResponseResource;
 import ch.globaz.tmmas.rentesservice.application.service.impl.RegleMetiersNonSatisfaite;
+import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,16 @@ class RestControllerBusinessRulesExceptionHandler {
     protected ResponseEntity<Object> handleReglesMetiersException(RegleMetiersNonSatisfaite ex){
 
         ErrorResponseResource errors = new ErrorResponseResource(HttpStatus.CONFLICT,ex.getMessage(),ex.getReglesMetiersNonStaisfaite());
+
+        return ResponseEntity
+                .badRequest()
+                .body(errors);
+    }
+
+    @ExceptionHandler(PersonnesServiceResponseException.class)
+    protected ResponseEntity<Object> handleReglesMetiersException(PersonnesServiceResponseException ex){
+
+        ErrorResponseResource errors = new ErrorResponseResource(HttpStatus.CONFLICT,ex.getCause().getMessage(),ex.getMessage());
 
         return ResponseEntity
                 .badRequest()
