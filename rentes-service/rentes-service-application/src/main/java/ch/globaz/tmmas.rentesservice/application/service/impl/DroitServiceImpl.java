@@ -12,13 +12,14 @@ import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
 import ch.globaz.tmmas.rentesservice.domain.repository.DroitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class DroitServiceImpl implements DroitService{
 
     @Autowired

@@ -6,18 +6,19 @@ import ch.globaz.tmmas.rentesservice.domain.model.droit.Droit;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class DossierHibernateRepository extends HibernateRepository implements DossierRepository {
 
 
-	@Autowired
-	ObjectMapper mapper;
+
 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DossierHibernateRepository.class);

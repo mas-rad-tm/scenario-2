@@ -20,6 +20,7 @@ import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonneMoraleResource;
 import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class DossierServiceImpl implements DossierService {
 
 	@Autowired
