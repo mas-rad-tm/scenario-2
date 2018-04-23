@@ -109,6 +109,12 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>chaos-monkey-spring-boot</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
 
