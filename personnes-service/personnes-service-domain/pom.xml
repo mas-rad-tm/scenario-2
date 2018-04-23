@@ -24,7 +24,12 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
-        <!-- serialisation dates avec jackson -->
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <!-- serialisation dates avec jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

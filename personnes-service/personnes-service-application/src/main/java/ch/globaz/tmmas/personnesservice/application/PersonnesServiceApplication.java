@@ -80,9 +80,9 @@ public class PersonnesServiceApplication {
 
 		LOGGER.info("* Application '{}' is running!",env.getProperty("spring.application.name"));
 		LOGGER.info("* Local      : localhost:{}{}",
-				env.getProperty("server.port"), env.getProperty("server.contextPath"));
+				env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
 		LOGGER.info("* External   : {}:{}{}",externalAdress, env.getProperty("server.port"),
-				env.getProperty("server.contextPath"));
+				env.getProperty("server.servlet.context-path"));
 
 		String activeProfiles = Arrays.asList(env.getActiveProfiles()).stream()
 				.collect( Collectors.joining( "," ) );

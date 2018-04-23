@@ -1,13 +1,10 @@
 package ch.globaz.tmmas.personnesservice.domain.event;
 
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneId;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import ch.globaz.tmmas.personnesservice.domain.model.Sexe;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.time.ZonedDateTime;
 
 @Getter
 @ToString
@@ -33,7 +30,7 @@ public class PersonneMoraleCreeEvent implements DomainEvent {
     }
 
     public static PersonneMoraleCreeEvent fromEntity(PersonneMorale personneMorale){
-        return new PersonneMoraleCreeEvent(personneMorale.getIdentifiant().getNss(),
+        return new PersonneMoraleCreeEvent(personneMorale.nssAsString(),
                 personneMorale.getNom(),
                 personneMorale.getPrenom(),
                 personneMorale.getDateNaissance().format(formatter),

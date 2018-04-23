@@ -26,7 +26,7 @@
             </type>
         </property>
 
-        <component name="identifiant" unique="true" update="false" >
+        <component name="nss" unique="true" update="false" >
             <property name="nss" column="nss" not-null="true"/>
         </component>
 

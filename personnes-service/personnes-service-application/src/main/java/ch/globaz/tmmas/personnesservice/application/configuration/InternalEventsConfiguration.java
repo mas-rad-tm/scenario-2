@@ -10,8 +10,6 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 public class InternalEventsConfiguration {
 
 
-
-
 	@Bean(name = "applicationEventMulticaster")
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
 		SimpleApplicationEventMulticaster eventMulticaster

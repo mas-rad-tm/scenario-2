@@ -36,6 +36,6 @@ public class AdresseDesactiveEvent implements DomainEvent{
                 nouvelleAdresse.getComplement(),
                 nouvelleAdresse.getDateDebutValidite().format(formatter),
                 nouvelleAdresse.getIsActive(),
-                nouvelleAdresse.getPersonneMorale().getIdentifiant().getNss());
+                nouvelleAdresse.getPersonneMorale().nssAsString());
     }
 }

@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Controlleur REST pour les opérations de base sur les personnes
+ */
 @RestController
 @RequestMapping("/personnes")
 public class PersonnesController {
@@ -51,10 +54,8 @@ public class PersonnesController {
 
     @Autowired
     InternalCommandPublisher commandPublisher;
-    /**
-     * Génération de 5 localités a but d'exemple et de données de bases
-     * @return une instance de <code>ResponseEntity</code>
-     */
+
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity creerPersonne(@Valid @RequestBody CreerPersonneMoraleCommand command) throws PersonnesIncoherenceException {
 
@@ -70,9 +71,7 @@ public class PersonnesController {
 
         return new ResponseEntity<>(new ResponseResource(persoResourceObject), HttpStatus
                     .CREATED);
-
     }
-
 
     @RequestMapping(value="/{personneId}/adresses", method = RequestMethod.POST)
     public ResponseEntity creerAdresseForPersonne(@Valid @RequestBody CreerAdresseCommand command, @PathVariable Long
@@ -99,21 +98,15 @@ public class PersonnesController {
             return new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No persone found with id "
                     + personneId),HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
     @RequestMapping(value="/{personneId}", method = RequestMethod.GET)
-    public ResponseEntity getPersonneById(@PathVariable Long
-                                                           personneId) throws AdresseIncoherenceException {
+    public ResponseEntity getPersonneById(@PathVariable Long personneId) throws AdresseIncoherenceException {
 
         LOGGER.info("récupérerPersonnes() for personnid: {}", personneId);
 
-
         //si pas de ressources 404
         Boolean personneExist = personneService.checkifPersonneExist(personneId);
-
 
         if(personneExist){
 
@@ -123,16 +116,12 @@ public class PersonnesController {
             ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personneMorale)
                     .buildResourceObject();
 
-
             return new ResponseEntity<>(new ResponseResource(persoResourceObject), HttpStatus.OK);
-
 
         }else{
             return new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No persone found with id "
                     + personneId),HttpStatus.NOT_FOUND);
         }
-
-
 
     }
 
@@ -155,10 +144,7 @@ public class PersonnesController {
                 return new AdresseResourceAttributes(adresse).buildResourceObject();
             }).collect(Collectors.toList());
 
-
-
             return new ResponseEntity<>(adressesResource, HttpStatus.OK);
-
 
         }else{
             return new ResponseEntity(new ErrorResponseResource(HttpStatus.NOT_FOUND,"No persone found with id "

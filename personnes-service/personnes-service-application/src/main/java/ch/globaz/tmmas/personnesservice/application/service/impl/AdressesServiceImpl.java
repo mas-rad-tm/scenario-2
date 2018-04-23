@@ -14,11 +14,12 @@ import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import ch.globaz.tmmas.personnesservice.domain.service.AdressePersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Service
 public class AdressesServiceImpl implements AdressesService {
 
     @Autowired

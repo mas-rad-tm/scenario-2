@@ -13,7 +13,7 @@ spring:
 # mode jar, port et context
 server:
   port:                              ${PORT:9010}
-  contextPath:                       /personnes-service
+  servlet.context-path:                       /personnes-service
 #####################################################################
 # Configuration Spring actuator
 #####################################################################

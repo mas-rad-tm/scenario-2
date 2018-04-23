@@ -2,13 +2,10 @@ package ch.globaz.tmmas.personnesservice.domain.factory;
 
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
 import ch.globaz.tmmas.personnesservice.domain.exception.PersonnesIncoherenceException;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneId;
+import ch.globaz.tmmas.personnesservice.domain.model.NSS;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
-import ch.globaz.tmmas.personnesservice.domain.model.Sexe;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import ch.globaz.tmmas.personnesservice.reglesmetiers.NssNonExistant;
-
-import java.time.ZonedDateTime;
 
 public class PersonneMoraleFactory {
 
@@ -17,7 +14,7 @@ public class PersonneMoraleFactory {
 		NssNonExistant regle = new NssNonExistant(personneRepository);
 
 		if(regle.isSatisfiedBy(commande.getNss())){
-			return new PersonneMorale(new PersonneId(commande.getNss()),commande.getNom(),
+			return new PersonneMorale(new NSS(commande.getNss()),commande.getNom(),
 					commande.getPrenom(),commande.getDateNaissance(),commande.getSexe());
 		}
 

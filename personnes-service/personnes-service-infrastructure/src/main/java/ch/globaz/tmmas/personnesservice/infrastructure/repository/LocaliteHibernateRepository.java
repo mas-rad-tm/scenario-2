@@ -3,10 +3,11 @@ package ch.globaz.tmmas.personnesservice.infrastructure.repository;
 import ch.globaz.tmmas.personnesservice.domain.model.Localite;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Component
+@Repository
 public class LocaliteHibernateRepository extends HibernateRepository implements LocaliteRepository  {
 
 

@@ -41,7 +41,7 @@ public class PersonneMoraleResourceAttributes implements ResourceAttributes {
 		this.nom = personneMorale.getNom();
 		this.prenom = personneMorale.getPrenom();
 		this.sexe = personneMorale.getSexe();
-		this.nss = personneMorale.getIdentifiant().getNss();
+		this.nss = personneMorale.nssAsString();
 
 	}
 
