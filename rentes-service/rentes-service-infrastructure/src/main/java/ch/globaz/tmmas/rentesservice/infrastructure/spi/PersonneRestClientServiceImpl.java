@@ -42,12 +42,15 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 
 
 	@Override
-	public PersonneMoraleResource getPersonneById(Long personneId) throws IOException {
+	public PersonneMoraleResource getPersonneById(Long personneId) throws IOException, PersonnesServiceResponseException {
 
 		Call<PersonnesServiceResponse> call = client.getPersonneById(personneId);
 
 		Response<PersonnesServiceResponse> reponse = call.execute();
 
+		if(reponse.code() != HttpStatus.OK.value()){
+			throw new PersonnesServiceResponseException(reponse.errorBody().string());
+		}
 
 		PersonneMoraleResource requerant = reponse.body().getData();
 		return requerant;

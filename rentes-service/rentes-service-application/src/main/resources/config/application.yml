@@ -5,7 +5,9 @@
 spring:
   application:
     name:                            rentes-service
-
+  #jackson null default desactivate
+  jackson:
+    default-property-inclusion:      NON_NULL
 #profiles spring
   profiles:
     active:                          db2,maison
@@ -13,33 +15,32 @@ spring:
 # mode jar, port et context
 server:
   port:                              ${PORT:9020}
-  contextPath:                       /rentes-service
+  servlet.context-path:                        /rentes-service
 #####################################################################
 # Configuration Spring actuator
 #####################################################################
 management:
-  security:
-    enabled:                            false
-  #context path pour actuator
-  context-path:                         /actuator
+  server.servlet.context-path:                         /actuator
 
 # configuration des endpoints
-endpoints:
-  hypermedia:
-    enabled:                            true
-  actuator:
-    enabled:                            true
-  beans:
-    enabled:                            true
-  env:
-    enabled:                            true
-  metrics:
-    enabled:                            true
-  health:
-    enabled:                            true
-  mappings:
-    enabled:                            true
-  docs:
-    enabled:                            true
-  logfile:
-    enabled:                            true
+management:
+  endpoint:
+    hypermedia:
+      enabled:                            true
+    actuator:
+      enabled:                            true
+    beans:
+      enabled:                            true
+    env:
+      enabled:                            true
+    metrics:
+      enabled:                            true
+    health:
+      enabled:                            true
+    mappings:
+      enabled:                            true
+    docs:
+      enabled:                            true
+    logfile:
+      enabled:                            true
+

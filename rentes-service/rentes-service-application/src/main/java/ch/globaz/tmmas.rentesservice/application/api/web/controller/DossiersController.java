@@ -61,7 +61,7 @@ class DossiersController {
 	 * @return une instance de <code>ResponseEntity</code>
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command) throws IOException {
+	public ResponseEntity creerDossier(@Valid @RequestBody CreerDossierCommand command) throws IOException, PersonnesServiceResponseException {
 		LOGGER.info("creerDossier(), command= {}",command);
 
 		commandPublisher.publishCommand(command);

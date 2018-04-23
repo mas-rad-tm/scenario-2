@@ -7,7 +7,7 @@ import java.io.IOException;
 public interface DossierPersonneService {
 
 
-	PersonneMoraleResource getPersonneById(Long personneId) throws IOException;
+	PersonneMoraleResource getPersonneById(Long personneId) throws IOException, PersonnesServiceResponseException;
 
 	PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException;
 }

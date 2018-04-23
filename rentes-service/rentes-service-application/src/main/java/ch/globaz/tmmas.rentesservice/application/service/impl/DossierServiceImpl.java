@@ -64,7 +64,7 @@ public class DossierServiceImpl implements DossierService {
 	 */
 	@Transactional
 	@Override
-	public Dossier creerDossier(CreerDossierCommand command) throws IOException {
+	public Dossier creerDossier(CreerDossierCommand command) throws IOException, PersonnesServiceResponseException {
 
 		if(personneService.getPersonneById(command.getRequerantId()) != null){
 			Dossier dossier = DossierFactory.create(command);

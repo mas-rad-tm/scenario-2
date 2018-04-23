@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
@@ -95,9 +96,9 @@ public class RentesServiceApplication {
 
         LOGGER.info("* Application '{}' is running!", env.getProperty("spring.application.name"));
         LOGGER.info("* Local      : localhost:{}{}",
-                env.getProperty("server.port"), env.getProperty("server.contextPath"));
+                env.getProperty("server.port"), env.getProperty("server..servlet.context-path"));
         LOGGER.info("* External   : {}:{}{}", externalAdress, env.getProperty("server.port"),
-                env.getProperty("server.contextPath"));
+                env.getProperty("server..servlet.context-path"));
 
         String activeProfiles = Arrays.asList(env.getActiveProfiles()).stream()
                 .collect(Collectors.joining(","));
@@ -122,6 +123,8 @@ public class RentesServiceApplication {
         }
 
     }
+
+
 
 
 }

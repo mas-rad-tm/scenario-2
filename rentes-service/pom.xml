@@ -24,8 +24,8 @@
     <properties>
 
         <!-- dépendances -->
-        <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
-        <spring.version>4.3.14.RELEASE</spring.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <spring.version>5.0.5.RELEASE</spring.version>
         <logback.version>1.2.3</logback.version>
         <logback.encoder.version>4.11</logback.encoder.version>
         <hibernate.version>5.2.12.Final</hibernate.version>
@@ -38,9 +38,10 @@
         <h2.driver.version>1.4.196</h2.driver.version>
         <faker.version>0.14</faker.version>
         <hibernate-validator.version>5.3.6.Final</hibernate-validator.version>
-        <jackson-databind.version>2.8.10</jackson-databind.version>
+        <jackson-databind.version>2.9.5</jackson-databind.version>
         <retrofit.version>2.4.0</retrofit.version>
         <okhttp-inteceptor.verions>3.9.1</okhttp-inteceptor.verions>
+        <spring-boot-actuator-docs.version>1.5.12.RELEASE</spring-boot-actuator-docs.version>
 
         <!-- dépendances de build et maven plugin -->
         <maven-compiler.version>3.7.0</maven-compiler.version>
@@ -153,7 +154,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-actuator-docs</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-boot-actuator-docs.version}</version>
             </dependency>
 
 

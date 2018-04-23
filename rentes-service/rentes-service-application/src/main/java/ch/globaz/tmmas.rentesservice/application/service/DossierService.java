@@ -19,7 +19,7 @@ public interface DossierService {
 
     Optional<Dossier> getById(Long id);
 
-	Dossier creerDossier(CreerDossierCommand command) throws IOException;
+	Dossier creerDossier(CreerDossierCommand command) throws IOException, PersonnesServiceResponseException;
 
 
 	@Transactional
