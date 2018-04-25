@@ -90,7 +90,6 @@ public class DossierServiceImpl implements DossierService {
 	@Override
 	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 
-
 		PersonneMoraleResource requerant = personneService.createDossierwithPersonne(command);
 
 		Dossier dossier = DossierFactory.create(command.getDossierCommand(),requerant.getTechnicalId());

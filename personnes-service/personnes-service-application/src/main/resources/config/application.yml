@@ -43,3 +43,6 @@ management:
       enabled:                            true
     logfile:
       enabled:                            true
+
+activemq:
+  broker-url: tcp://localhost:61616

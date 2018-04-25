@@ -6,9 +6,11 @@ import ch.globaz.tmmas.personnesservice.domain.model.Sexe;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Getter
 @ToString
-public class PersonneMoraleCreeEvent implements DomainEvent {
+public class PersonneMoraleCreeEvent implements DomainEvent, Serializable {
 
     private String nss;
     private String nom;

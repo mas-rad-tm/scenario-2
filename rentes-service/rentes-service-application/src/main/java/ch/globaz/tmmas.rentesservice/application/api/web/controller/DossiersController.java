@@ -78,7 +78,8 @@ class DossiersController {
 
 
 
-	@RequestMapping(value = "/withPersonne", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/withPersonne", method = RequestMethod.POST, consumes = MediaType
+			.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
 	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
 
@@ -160,6 +161,8 @@ class DossiersController {
                 , HttpStatus.NOT_FOUND));
 
 	}
+
+
 
 
 
