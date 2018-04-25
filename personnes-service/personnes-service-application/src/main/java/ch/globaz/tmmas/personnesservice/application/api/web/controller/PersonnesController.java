@@ -120,6 +120,7 @@ public class PersonnesController {
 
         if(personneExist){
 
+
             Adresse nouvelleAdresses = adresseService.createAdresse(command,personneId);
 
             ResourceObject adresseResource = new AdresseResourceAttributes(nouvelleAdresses)
