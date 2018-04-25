@@ -81,8 +81,10 @@ public class PersonnesHibernateRepository extends HibernateRepository implements
 		return Optional.ofNullable(personneMorale);
 	}
 
-
-
+	@Override
+	public List<PersonneMorale> listerPersonnes() {
+		return getSession().createQuery("FROM " + PersonneMorale.class.getSimpleName()).list();
+	}
 
 
 }

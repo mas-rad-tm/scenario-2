@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -63,9 +64,16 @@ public class PersonneServiceImpl implements PersonneService {
 
 	}
 
+	@Transactional
 	@Override
 	public PersonneMorale mettreAJour(PersonneMorale personneMorale) {
 		return personneRepository.mettreAJour(personneMorale);
+	}
+
+	@Transactional
+	@Override
+	public List<PersonneMorale> getAllPersonnes() {
+		return personneRepository.listerPersonnes();
 	}
 
 

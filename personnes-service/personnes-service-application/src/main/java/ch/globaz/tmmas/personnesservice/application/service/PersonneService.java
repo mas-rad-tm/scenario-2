@@ -6,6 +6,7 @@ import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PersonneService {
@@ -20,4 +21,6 @@ public interface PersonneService {
 	PersonneMorale mettreAJour(PersonneMorale personneMorale);
 
 
+    @Transactional
+	List<PersonneMorale> getAllPersonnes();
 }
