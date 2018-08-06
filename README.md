@@ -8,6 +8,7 @@ Implémentation d'une architecture respectant les principes de l' "architecture 
 * base de données IBM DB2 (*par défaut, utilisation d'une base de données H2 embarquée*)
 
 ### Exécution de l'application
+#### Service rentes
 * Récupération du repository
 * Se rendre dans le dossier `/rentes-services`
 * lancer la commande `mvn clean install`
@@ -16,10 +17,21 @@ Implémentation d'une architecture respectant les principes de l' "architecture 
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:9020/rentes-service`. 
 
-### Paramétrages
-#### Parmétrage du port
+#### Paramétrages
+##### Parmétrage du port
 Le port par déaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute pour l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
 > **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
+
+#### Service personnes
+* Récupération du repository
+* Se rendre dans le dossier `/personnes-services`
+* lancer la commande `mvn clean install`
+* Se rendre dans le dossier `/personnes-service-application`
+* lancer l'application avec la commande `mvn spring-boot:run`
+
+L'application est maintenant disponible via l'url suivante: `http://localhost:9010/personnes-service`. 
+
+
 
 #### Utilisation d'une base de données physique
 Par défaut c'est une base de donnée `H2` embarquée qui est utilisée. Il est possible d'utiliser une base de données physique. 

@@ -10,7 +10,7 @@ spring:
     default-property-inclusion:      NON_NULL
 #profiles spring
   profiles:
-    active:                          db2,maison
+    active:                          h2,maison
 
 # mode jar, port et context
 server:
