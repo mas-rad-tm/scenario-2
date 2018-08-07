@@ -19,7 +19,7 @@ L'application est maintenant disponible via l'url suivante: `http://localhost:90
 
 #### Paramétrages
 ##### Parmétrage du port
-Le port par déaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute pour l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
+Le port par défaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute . Il suffit pour cela d'ajouter la variable **PORT** à la commande de démarrage de l'application:
 > **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
 
 #### Service personnes
