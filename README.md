@@ -1,7 +1,11 @@
 # Scénario 2
-Implémentation d'une architecture respectant les principes de l' "architecture hexagonale"
+Gestion des transactions distribuées. 
 
-## Variante n° 1
+Ce scénario se base sur deux services applicatifs: 
+* **rentes-service**: le service de gestion des rentes
+* **personnes-services**: le service de gestion des personnes
+
+## Variante n° 2
 ### Prérequis
 * Maven version 3.5.0
 * JDK version 1.8
@@ -17,10 +21,27 @@ Implémentation d'une architecture respectant les principes de l' "architecture 
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:9020/rentes-service`. 
 
-#### Paramétrages
-##### Parmétrage du port
-Le port par défaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute . Il suffit pour cela d'ajouter la variable **PORT** à la commande de démarrage de l'application:
+##### Paramétrages
+###### Parmétrage du port
+Le port par déaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute pour l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
 > **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
+
+###### Utilisation d'une base de données physique
+Par défaut c'est une base de donnée `H2` embarquée qui est utilisée. Il est possible d'utiliser une base de données physique. 
+Un profil spring `db2` est paramétré pour l'utilisation d'une base de données IBM DB2. 
+
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application-db2.yml`
+* Adapter les paramètres en fonction de la base de données voulues
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application.yml`
+* Modifier `h2`  par `db2` pour la clé `spring.profiles.active`
+* Démarrer l'application 
+
+###### Paramétrage des logs applicatifs
+Les logs applicatifs sont générés dans un répertoire déinis. Suivant le système d'exploitation, il y aura lieu de configurer le chemin d'écriture des fichiers de logs:
+
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/logback-spring.xml`
+* Modifier la valeur de la propriété `logging.path`
+* Redémarrer l'application
 
 #### Service personnes
 * Récupération du repository
@@ -31,22 +52,27 @@ Le port par défaut de l'application est le **9020**. Il est possible de paramé
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:9010/personnes-service`. 
 
+##### Paramétrages
+###### Parmétrage du port
+Le port par déaut de l'application est le **9010**. Il est possible de paramétrer un autre port d'écoute pour 
+l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
+> **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
 
 
-#### Utilisation d'une base de données physique
+###### Utilisation d'une base de données physique
 Par défaut c'est une base de donnée `H2` embarquée qui est utilisée. Il est possible d'utiliser une base de données physique. 
 Un profil spring `db2` est paramétré pour l'utilisation d'une base de données IBM DB2. 
 
-* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application-db2.yml`
+* Ouvrir le fichier `/personnes-service/personnes-service-application/src/main/resources/config/application-db2.yml`
 * Adapter les paramètres en fonction de la base de données voulues
-* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application.yml`
+* Ouvrir le fichier `/personnes-service/personnes-service-application/src/main/resources/config/application.yml`
 * Modifier `h2`  par `db2` pour la clé `spring.profiles.active`
 * Démarrer l'application 
 
-#### Paramétrage des logs applicatifs
+###### Paramétrage des logs applicatifs
 Les logs applicatifs sont générés dans un répertoire déinis. Suivant le système d'exploitation, il y aura lieu de configurer le chemin d'écriture des fichiers de logs:
 
-* Ouvrir le fichier `/Users/seb/Developpement/TM-MAS/scenario-1/rentes-service/rentes-service-application/src/main/resources/logback-spring.xml`
+* Ouvrir le fichier `/personnes-service/personnes-service-application/src/main/resources/logback-spring.xml`
 * Modifier la valeur de la propriété `logging.path`
 * Redémarrer l'application
 
@@ -59,15 +85,8 @@ L'application embarque une documentation des API disponible à cette url:
 
 Cette documentation est basé sur l'outil `Swagger`, fournissant une documentation, mais également une interface permettant de tester les différentes API.
 
-Les API Rest suivantes sont implémentés et peuvent être utilisées pour tester l'application:
-> **/dossiers**, méthode http GET, fournit la liste des dossiers
+Les API Rest suivantes ont été ajoutés pour ce scénario (API spécifique pour le scénario, pour les autres consulter 
+swagger):  
 
-> **/dossiers**, méthode http POST, permet la création d'un dossier
-
-> **/dossiers/{id}**, méthode http GET, fournit le détail d'un dossier 
-
-> **/dossiers/{id}/valider**, méthode http PUT, permet la validation d'un dossier
-
-> **/dossiers/{id}/clore**, méthode http PUT, permet la cloture d'un dossier
-
+> **/dossiers/withPersonne**, méthode http POST, permet la création d'un dossier et d'une personne
 
