@@ -1,5 +1,9 @@
 # Scénario 2
-Implémentation d'une architecture respectant les principes de l' "architecture hexagonale"
+Gestion des transactions distribuées. 
+
+Ce scénario se base sur deux services applicatifs: 
+* **rentes-service**: le service de gestion des rentes
+* **personnes-services**: le service de gestion des personnes
 
 ## Variante n° 1
 ### Prérequis
