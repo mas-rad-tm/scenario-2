@@ -5,7 +5,7 @@ Ce scénario se base sur deux services applicatifs:
 * **rentes-service**: le service de gestion des rentes
 * **personnes-services**: le service de gestion des personnes
 
-## Variante n° 1
+## Variante n° 2
 ### Prérequis
 * Maven version 3.5.0
 * JDK version 1.8
@@ -35,6 +35,13 @@ Un profil spring `db2` est paramétré pour l'utilisation d'une base de données
 * Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application.yml`
 * Modifier `h2`  par `db2` pour la clé `spring.profiles.active`
 * Démarrer l'application 
+
+###### Paramétrage des logs applicatifs
+Les logs applicatifs sont générés dans un répertoire déinis. Suivant le système d'exploitation, il y aura lieu de configurer le chemin d'écriture des fichiers de logs:
+
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/logback-spring.xml`
+* Modifier la valeur de la propriété `logging.path`
+* Redémarrer l'application
 
 #### Service personnes
 * Récupération du repository
@@ -78,15 +85,11 @@ L'application embarque une documentation des API disponible à cette url:
 
 Cette documentation est basé sur l'outil `Swagger`, fournissant une documentation, mais également une interface permettant de tester les différentes API.
 
-Les API Rest suivantes sont implémentés et peuvent être utilisées pour tester l'application:
-> **/dossiers**, méthode http GET, fournit la liste des dossiers
+Les API Rest suivantes ont été ajoutés pour ce scénario (API spécifique pour le scénario, pour les autres consulter 
+swagger):  
 
-> **/dossiers**, méthode http POST, permet la création d'un dossier
+> **/dossiers/withPersonne**, méthode http POST, permet la création d'un dossier et d'une personne
 
-> **/dossiers/{id}**, méthode http GET, fournit le détail d'un dossier 
 
-> **/dossiers/{id}/valider**, méthode http PUT, permet la validation d'un dossier
-
-> **/dossiers/{id}/clore**, méthode http PUT, permet la cloture d'un dossier
 
 
