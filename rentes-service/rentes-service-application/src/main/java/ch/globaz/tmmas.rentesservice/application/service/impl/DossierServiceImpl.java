@@ -19,7 +19,6 @@ import ch.globaz.tmmas.rentesservice.infrastructure.spi.DossierPersonneService;
 import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonneMoraleResource;
 import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +91,7 @@ public class DossierServiceImpl implements DossierService {
 
 		PersonneMoraleResource requerant = personneService.createDossierwithPersonne(command);
 
-		Dossier dossier = DossierFactory.create(command.getDossierCommand(),requerant.getTechnicalId());
+		Dossier dossier = DossierFactory.create(command.getDossier(),requerant.getTechnicalId());
 
 		dossier = repository.initieDossier(dossier);
 

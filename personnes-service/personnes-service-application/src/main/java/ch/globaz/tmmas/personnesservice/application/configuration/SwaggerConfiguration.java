@@ -1,4 +1,4 @@
-package ch.globaz.tmmas.rentesservice.application.configuration;
+package ch.globaz.tmmas.personnesservice.application.configuration;
 
 
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-	private final static String DEFAULT_CONTROLLERS_PACKAGE =  "ch.globaz.tmmas.rentesservice.application.api.web.controller";
+	private final static String DEFAULT_CONTROLLERS_PACKAGE =  "ch.globaz.tmmas.personnesservice.application.api.web.controller";
 
 	@Bean
 	public Docket api() {

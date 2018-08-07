@@ -21,9 +21,9 @@ import java.time.ZonedDateTime;
 public class CreerDossierWithPersonneCommand implements DomainCommand {
 
 
-	private DossierCommand dossierCommand = new DossierCommand();
+	private DossierCommand dossier = new DossierCommand();
 
-	private PersonneCommand personneCommand = new PersonneCommand();
+	private PersonneCommand personne = new PersonneCommand();
 
 	CreerDossierWithPersonneCommand() {}
 

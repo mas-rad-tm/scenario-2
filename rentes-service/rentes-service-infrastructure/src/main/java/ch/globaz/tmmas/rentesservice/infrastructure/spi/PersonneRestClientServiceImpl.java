@@ -60,7 +60,7 @@ public class PersonneRestClientServiceImpl implements DossierPersonneService{
 	@Override
 	public PersonneMoraleResource createDossierwithPersonne(CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 
-		Call<PersonnesServiceResponse> call = client.createPersonne(command.getPersonneCommand());
+		Call<PersonnesServiceResponse> call = client.createPersonne(command.getPersonne());
 
 		Response<PersonnesServiceResponse> reponse = call.execute();
 
