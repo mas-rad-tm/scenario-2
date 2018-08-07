@@ -79,19 +79,15 @@ class DossiersController {
 
 
 	@RequestMapping(value = "/withPersonne", method = RequestMethod.POST, consumes = MediaType
-			.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+			.APPLICATION_JSON_VALUE)
 	public ResponseEntity creerDossierWithPersonne(@Valid @RequestBody CreerDossierWithPersonneCommand command) throws IOException, PersonnesServiceResponseException {
 		LOGGER.info("creerDossierWithPersonne(), command= {}",command);
 
 		commandPublisher.publishCommand(command);
 
-		ResourceObject dossierResource = new DossierResourceAttributes(
-				dossierService.creerDossierWithPersonne(command))
-				.buildResourceObject();
+		dossierService.creerDossierWithPersonne(command,SSEController.consommateurs);
 
-		putSelfLink(dossierResource);
-
-		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
+		return new ResponseEntity<>("Process started...", HttpStatus.OK);
 
 	}
 
