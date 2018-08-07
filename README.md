@@ -21,10 +21,20 @@ Ce scénario se base sur deux services applicatifs:
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:9020/rentes-service`. 
 
-#### Paramétrages
-##### Parmétrage du port
+##### Paramétrages
+###### Parmétrage du port
 Le port par déaut de l'application est le **9020**. Il est possible de paramétrer un autre port d'écoute pour l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
 > **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
+
+###### Utilisation d'une base de données physique
+Par défaut c'est une base de donnée `H2` embarquée qui est utilisée. Il est possible d'utiliser une base de données physique. 
+Un profil spring `db2` est paramétré pour l'utilisation d'une base de données IBM DB2. 
+
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application-db2.yml`
+* Adapter les paramètres en fonction de la base de données voulues
+* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application.yml`
+* Modifier `h2`  par `db2` pour la clé `spring.profiles.active`
+* Démarrer l'application 
 
 #### Service personnes
 * Récupération du repository
@@ -35,15 +45,20 @@ Le port par déaut de l'application est le **9020**. Il est possible de paramét
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:9010/personnes-service`. 
 
+##### Paramétrages
+###### Parmétrage du port
+Le port par déaut de l'application est le **9010**. Il est possible de paramétrer un autre port d'écoute pour 
+l'application. Il suffit pour cela d'ajouter la varaiable **PORT** à la commande de démarrage de l'application:
+> **mvn -DPORT=1234 spring-boot:run** (*remplacez 1234 par le numéro de port désiré*)
 
 
-#### Utilisation d'une base de données physique
+###### Utilisation d'une base de données physique
 Par défaut c'est une base de donnée `H2` embarquée qui est utilisée. Il est possible d'utiliser une base de données physique. 
 Un profil spring `db2` est paramétré pour l'utilisation d'une base de données IBM DB2. 
 
-* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application-db2.yml`
+* Ouvrir le fichier `/personnes-service/personnes-service-application/src/main/resources/config/application-db2.yml`
 * Adapter les paramètres en fonction de la base de données voulues
-* Ouvrir le fichier `/rentes-service/rentes-service-application/src/main/resources/config/application.yml`
+* Ouvrir le fichier `/personnes-service/personnes-service-application/src/main/resources/config/application.yml`
 * Modifier `h2`  par `db2` pour la clé `spring.profiles.active`
 * Démarrer l'application 
 
