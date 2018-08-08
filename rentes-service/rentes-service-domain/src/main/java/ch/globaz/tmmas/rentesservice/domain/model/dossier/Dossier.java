@@ -53,7 +53,7 @@ public class Dossier implements Entity<Dossier> {
         this.requerantId = requerantId;
         this.dateEnregistrement = dateEnregistrement;
         this.identifiant = DossierId.aleatoire();
-        this.status = DossierStatus.INITIE;
+        this.status = DossierStatus.VALIDATION_REQUERANT;
 
     }
 

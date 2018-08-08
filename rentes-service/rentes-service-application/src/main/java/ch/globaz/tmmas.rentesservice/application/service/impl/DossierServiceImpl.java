@@ -75,17 +75,14 @@ public class DossierServiceImpl implements DossierService {
 	@Override
 	public Dossier creerDossier(CreerDossierCommand command) throws IOException, PersonnesServiceResponseException {
 
-		if(personneService.getPersonneById(command.getRequerantId()) != null){
+
 			Dossier dossier = DossierFactory.create(command);
 
-			dossier =  repository.initieDossier(dossier);
+			dossier =  repository.creerDossier(dossier);
 
 			eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
 
 			return dossier;
-		}else{
-			return null;
-		}
 
 
 

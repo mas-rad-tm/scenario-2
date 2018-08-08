@@ -57,3 +57,13 @@ chaos:
       restController: true
     assaults:
       exceptions-active: true
+
+kafka:
+  bootstrapAddress:
+    localhost:9092
+dossierCree:
+  topic:
+    name: dossier-cree
+personneValide:
+  topic:
+    name: personne-valide

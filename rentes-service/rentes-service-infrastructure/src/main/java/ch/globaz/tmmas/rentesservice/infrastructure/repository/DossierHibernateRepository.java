@@ -34,6 +34,15 @@ public class DossierHibernateRepository extends HibernateRepository implements D
 		return dossier;
 	}
 
+	@Override
+	public Dossier creerDossier(Dossier dossier) {
+		LOGGER.debug("creerDossier (): {}", dossier);
+
+		getSession().saveOrUpdate(dossier);
+
+		return dossier;
+	}
+
 
 	@Override
 	public List<Dossier> allDossiers() {

@@ -5,5 +5,5 @@ import lombok.ToString;
 @ToString
 public enum DossierStatus {
 
-    INITIE, VALIDE, CLOT;
+    VALIDATION_REQUERANT,INITIE, VALIDE, CLOT;
 }
