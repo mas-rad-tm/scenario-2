@@ -5,7 +5,7 @@ Ce scénario se base sur deux services applicatifs:
 * **rentes-service**: le service de gestion des rentes
 * **personnes-services**: le service de gestion des personnes
 
-## Variante n° 2
+## Variante n° 3
 ### Prérequis
 * Maven version 3.5.0
 * JDK version 1.8
