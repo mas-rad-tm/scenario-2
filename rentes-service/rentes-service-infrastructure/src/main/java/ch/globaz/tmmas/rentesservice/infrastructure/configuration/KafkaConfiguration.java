@@ -2,6 +2,7 @@ package ch.globaz.tmmas.rentesservice.infrastructure.configuration;
 
 
 import ch.globaz.tmmas.rentesservice.domain.event.DomainEvent;
+import ch.globaz.tmmas.rentesservice.infrastructure.messaging.kafka.KafkaTopics;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -41,13 +43,18 @@ public class KafkaConfiguration {
 				StringSerializer.class);
 		configProps.put(
 				ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-				JsonSerializer.class);
+				StringSerializer.class);
 		return new DefaultKafkaProducerFactory<>(configProps);
 	}
 
 	@Bean
-	public KafkaTemplate<String, DomainEvent> kafkaTemplate() {
-		return new KafkaTemplate(producerFactory());
+	public KafkaTemplate<String, String> kafkaTemplate() {
+
+		KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+		kafkaTemplate.setMessageConverter(new StringJsonMessageConverter());
+		kafkaTemplate.setDefaultTopic(KafkaTopics.DOSSIER_CREE.nom());
+		return kafkaTemplate;
+		//return new KafkaTemplate(producerFactory());
 	}
 
 	@Bean
@@ -64,9 +71,20 @@ public class KafkaConfiguration {
 				StringDeserializer.class);
 		props.put(
 				ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-				JsonDeserializer.class);
+				StringDeserializer.class);
 		return new DefaultKafkaConsumerFactory<>(props);
 	}
+
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, String> jsonKafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, String> factory =
+				new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(consumerFactory());
+		factory.setMessageConverter(new StringJsonMessageConverter());
+		return factory;
+	}
+
+
 
 	@Bean
 	public ConcurrentKafkaListenerContainerFactory<String, String>
