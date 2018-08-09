@@ -4,7 +4,7 @@ package ch.globaz.tmmas.personnesservice.application.api.messaging.listener;
 import ch.globaz.tmmas.personnesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.event.PersonnePhysiqueVerificationEvent;
-import ch.globaz.tmmas.personnesservice.infrastructure.messaging.event.DossierCreeEvent;
+import ch.globaz.tmmas.rentesservice.domain.event.DossierCreeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

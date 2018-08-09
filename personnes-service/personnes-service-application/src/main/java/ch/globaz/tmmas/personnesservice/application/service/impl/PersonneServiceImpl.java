@@ -47,8 +47,6 @@ public class PersonneServiceImpl implements PersonneService {
 
 		LOGGER.info("Check if personne exist, id {}", personneId);
 
-		Boolean exist = personneRepository.personneExist(personneId);
-
 		return personneRepository.personneExist(personneId);
 	}
 

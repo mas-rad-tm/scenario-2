@@ -17,6 +17,6 @@ public class KafkaMessaging implements MessagingService {
 
     @Override
     public void sendForTopics(KafkaTopics topic, PersonnePhysiqueVerificationEvent event) {
-
+        kafkaTemplate.send(topic.nom,event);
     }
 }
