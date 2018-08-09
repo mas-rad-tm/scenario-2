@@ -17,9 +17,9 @@ public class Adresse implements ValueObject<Adresse> {
 	private ZonedDateTime dateDebutValidite;
 	private ZonedDateTime dateFinValidite;
 	private Boolean isActive;
-	private PersonneMorale personneMorale;
+	private PersonnePhysique personnePhysique;
 
-	public Adresse(Localite localite, PersonneMorale personne, String rue, Integer numero, String complement, ZonedDateTime
+	public Adresse(Localite localite, PersonnePhysique personne, String rue, Integer numero, String complement, ZonedDateTime
 			dateValidite) {
 		this.localite = localite;
 		this.rue = rue;
@@ -27,7 +27,7 @@ public class Adresse implements ValueObject<Adresse> {
 		this.dateDebutValidite = dateValidite;
 		this.numero = numero;
 		this.isActive = Boolean.TRUE;
-		this.personneMorale = personne;
+		this.personnePhysique = personne;
 	}
 
 

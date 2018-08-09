@@ -7,32 +7,25 @@ import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.Res
 import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.ResponseCollectionResource;
 import ch.globaz.tmmas.personnesservice.application.api.web.resources.common.ResponseResource;
 import ch.globaz.tmmas.personnesservice.application.event.InternalCommandPublisher;
-import ch.globaz.tmmas.personnesservice.application.event.InternalEventPublisher;
 import ch.globaz.tmmas.personnesservice.application.service.AdressesService;
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerAdresseCommand;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
 import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.exception.PersonnesIncoherenceException;
-import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.Localite;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
-import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
-import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -68,7 +61,7 @@ public class PersonnesController {
 
         LOGGER.info("listerPersonneMorale()");
 
-        List<PersonneMorale> personnes = personneService.getAllPersonnes();
+        List<PersonnePhysique> personnes = personneService.getAllPersonnes();
 
         List<ResourceObject> list = personnes.stream().map(personneMorale -> {
             ResourceObject resourceObject =  new PersonneMoraleResourceAttributes(personneMorale)
@@ -93,9 +86,9 @@ public class PersonnesController {
         commandPublisher.publishCommand(command);
 
 
-        PersonneMorale personneMorale  = personneService.creerPersonneMorale(command);
+        PersonnePhysique personnePhysique = personneService.creerPersonneMorale(command);
 
-        ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personneMorale)
+        ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personnePhysique)
                 .buildResourceObject();
 
         putSelfLink(persoResourceObject);
@@ -145,10 +138,10 @@ public class PersonnesController {
 
         if(personneExist){
 
-            PersonneMorale personneMorale =  personneService.getPersonneById(personneId).get();
+            PersonnePhysique personnePhysique =  personneService.getPersonneById(personneId).get();
 
 
-            ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personneMorale)
+            ResourceObject persoResourceObject = new PersonneMoraleResourceAttributes(personnePhysique)
                     .buildResourceObject();
 
             return new ResponseEntity<>(new ResponseResource(persoResourceObject), HttpStatus.OK);

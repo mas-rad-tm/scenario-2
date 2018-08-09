@@ -38,7 +38,7 @@ public class DossierCreeEvent implements DomainEvent {
                 dossier.getIdentifiant().identifiant(),
                 dossier.getDateEnregistrement().format(formatter),
                 dossier.requerantId(),
-                dossier.status().toString());
+                dossier.status().name());
     }
 
 }

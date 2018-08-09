@@ -51,12 +51,7 @@ management:
       enabled:                            true
     logfile:
       enabled:                            true
-chaos:
-  monkey:
-    watcher:
-      restController: true
-    assaults:
-      exceptions-active: true
+
 
 kafka:
   bootstrapAddress:
@@ -64,6 +59,6 @@ kafka:
 dossierCree:
   topic:
     name: dossier-cree
-personneValide:
+personneVerifie:
   topic:
-    name: personne-valide
+    name: personne-verifie

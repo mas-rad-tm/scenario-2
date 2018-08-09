@@ -5,7 +5,7 @@
 
 <hibernate-mapping default-access="field">
 
-    <class name="ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale" table="personnemorale"
+    <class name="ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique" table="personnemorale"
            schema="personnes" mutable="true">
 
         <id name="id" column="id">

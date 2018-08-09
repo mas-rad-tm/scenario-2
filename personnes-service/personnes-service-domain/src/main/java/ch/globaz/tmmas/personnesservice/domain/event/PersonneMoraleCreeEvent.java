@@ -1,7 +1,7 @@
 package ch.globaz.tmmas.personnesservice.domain.event;
 
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 import ch.globaz.tmmas.personnesservice.domain.model.Sexe;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,13 +31,13 @@ public class PersonneMoraleCreeEvent implements DomainEvent, Serializable {
         this.id = id;
     }
 
-    public static PersonneMoraleCreeEvent fromEntity(PersonneMorale personneMorale){
-        return new PersonneMoraleCreeEvent(personneMorale.nssAsString(),
-                personneMorale.getNom(),
-                personneMorale.getPrenom(),
-                personneMorale.getDateNaissance().format(formatter),
-                personneMorale.getSexe(),
-                personneMorale.getAdresseActive(),
-                personneMorale.getId());
+    public static PersonneMoraleCreeEvent fromEntity(PersonnePhysique personnePhysique){
+        return new PersonneMoraleCreeEvent(personnePhysique.nssAsString(),
+                personnePhysique.getNom(),
+                personnePhysique.getPrenom(),
+                personnePhysique.getDateNaissance().format(formatter),
+                personnePhysique.getSexe(),
+                personnePhysique.getAdresseActive(),
+                personnePhysique.getId());
     }
 }

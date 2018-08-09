@@ -2,23 +2,21 @@ package ch.globaz.tmmas.personnesservice.domain.service;
 
 import ch.globaz.tmmas.personnesservice.domain.common.GlobalParams;
 import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
-import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
 import ch.globaz.tmmas.personnesservice.reglesmetiers.DateDebutAdresseActivePersonneCoherente;
 
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class AdressePersonneService {
 
-	public static Adresse addAdresseToPersonneMorale(PersonneMorale personneMorale, Adresse nouvelleAdresse, AdressesRepository
+	public static Adresse addAdresseToPersonneMorale(PersonnePhysique personnePhysique, Adresse nouvelleAdresse, AdressesRepository
 			adresseRepository) throws AdresseIncoherenceException {
 
-		if(personneMorale.hasAdressesActiveDefinies()){
+		if(personnePhysique.hasAdressesActiveDefinies()){
 
-			Adresse adresseActive = personneMorale.getAdresseActive();
+			Adresse adresseActive = personnePhysique.getAdresseActive();
 
 			DateDebutAdresseActivePersonneCoherente coherenceDates = new DateDebutAdresseActivePersonneCoherente(
 					adresseActive.getDateDebutValidite());
@@ -36,12 +34,12 @@ public class AdressePersonneService {
 
 			//Création nouvelle adresse
 			adresseRepository.creerAdresse(nouvelleAdresse);
-			personneMorale.setAdresseActive(nouvelleAdresse);
+			personnePhysique.setAdresseActive(nouvelleAdresse);
 
 
 		}else{
 			adresseRepository.creerAdresse(nouvelleAdresse);
-			personneMorale.setAdresseActive(nouvelleAdresse);
+			personnePhysique.setAdresseActive(nouvelleAdresse);
 		}
 		return nouvelleAdresse;
 

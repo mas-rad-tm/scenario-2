@@ -4,6 +4,8 @@ package ch.globaz.tmmas.rentesservice.application.event;
 
 import ch.globaz.tmmas.rentesservice.domain.event.DomainEvent;
 import ch.globaz.tmmas.rentesservice.domain.event.DossierCreeEvent;
+import ch.globaz.tmmas.rentesservice.infrastructure.messaging.MessagingService;
+import ch.globaz.tmmas.rentesservice.infrastructure.messaging.kafka.KafkaTopics;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +19,10 @@ class DomainEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainEventListener.class);
 
+
+
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private MessagingService messagingService;
 
     @EventListener
     void onDomainEvent(DomainEvent event) throws JsonProcessingException {
@@ -32,8 +36,7 @@ class DomainEventListener {
 
         LOGGER.info("onDossierCreerEvent {}",event);
 
-        kafkaTemplate.send("dossier-cree", "yep");
-
+        messagingService.sendForTopics(KafkaTopics.DOSSIER_CREE,event);
 
     }
 

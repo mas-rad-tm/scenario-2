@@ -2,10 +2,7 @@ package ch.globaz.tmmas.personnesservice.domain.event;
 
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
 import ch.globaz.tmmas.personnesservice.domain.model.Localite;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import lombok.ToString;
-
-import java.time.ZonedDateTime;
 
 @ToString
 public class AdresseCreeEvent implements DomainEvent{
@@ -39,6 +36,6 @@ public class AdresseCreeEvent implements DomainEvent{
                 nouvelleAdresse.getComplement(),
                 nouvelleAdresse.getDateDebutValidite().format(formatter),
                 nouvelleAdresse.getIsActive(),
-                nouvelleAdresse.getPersonneMorale().getNss().getNss());
+                nouvelleAdresse.getPersonnePhysique().getNss().getNss());
     }
 }

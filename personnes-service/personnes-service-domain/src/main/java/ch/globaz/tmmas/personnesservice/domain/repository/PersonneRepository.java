@@ -1,24 +1,23 @@
 package ch.globaz.tmmas.personnesservice.domain.repository;
 
-import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonneRepository {
 
-	PersonneMorale creerPersonneMorale(PersonneMorale personneMorale);
+	PersonnePhysique creerPersonneMorale(PersonnePhysique personnePhysique);
 
-    PersonneMorale synchoniser(PersonneMorale personneMorale);
+    PersonnePhysique synchoniser(PersonnePhysique personnePhysique);
 
 	Boolean personneExist(Long personneId);
 
-	Optional<PersonneMorale> getPersonneById(Long id);
+	Optional<PersonnePhysique> getPersonneById(Long id);
 
-    PersonneMorale mettreAJour(PersonneMorale personneMorale);
+    PersonnePhysique mettreAJour(PersonnePhysique personnePhysique);
 
-    Optional<PersonneMorale> getPersonneByNss(String nss);
+    Optional<PersonnePhysique> getPersonneByNss(String nss);
 
-    List<PersonneMorale> listerPersonnes();
+    List<PersonnePhysique> listerPersonnes();
 }

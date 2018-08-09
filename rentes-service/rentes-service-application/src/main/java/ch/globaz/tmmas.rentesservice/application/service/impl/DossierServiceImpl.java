@@ -16,21 +16,15 @@ import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateCloturePlusRecente
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateValidationPlusRecenteDateEnregistrement;
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespond;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
-import ch.globaz.tmmas.rentesservice.infrastructure.spi.DossierPersonneService;
-import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonneMoraleResource;
-import ch.globaz.tmmas.rentesservice.infrastructure.spi.PersonnesServiceResponseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,8 +36,6 @@ public class DossierServiceImpl implements DossierService {
 	@Autowired
 	InternalEventPublisher eventPublisher;
 
-	@Autowired
-	DossierPersonneService personneService;
 
 	@Autowired
 	ObjectMapper mapper;
@@ -73,8 +65,7 @@ public class DossierServiceImpl implements DossierService {
 	 */
 	@Transactional
 	@Override
-	public Dossier creerDossier(CreerDossierCommand command) throws IOException, PersonnesServiceResponseException {
-
+	public Dossier creerDossier(CreerDossierCommand command) throws IOException {
 
 			Dossier dossier = DossierFactory.create(command);
 
@@ -84,43 +75,11 @@ public class DossierServiceImpl implements DossierService {
 
 			return dossier;
 
-
-
 	}
 
 
 
-	@Transactional
-	@Override
-	@Async
-	public Dossier creerDossierWithPersonne(CreerDossierWithPersonneCommand command, CopyOnWriteArrayList<SseEmitter> consommateurs) throws IOException, PersonnesServiceResponseException {
 
-		PersonneMoraleResource requerant = personneService.createDossierwithPersonne(command);
-
-		consommateurs.forEach(consomateur-> {
-			try {
-				consomateur.send(mapper.writeValueAsString(requerant));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		Dossier dossier = DossierFactory.create(command.getDossier(),requerant.getTechnicalId());
-
-		dossier = repository.initieDossier(dossier);
-
-		Dossier finalDossier = dossier;
-		consommateurs.forEach(consomateur-> {
-			try {
-				consomateur.send(mapper.writeValueAsString(finalDossier));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		return dossier;
-
-	}
 
 
 	private  Optional<DossierResourceAttributes> validerDossier(MiseAJourDossierCommand command, Long dossierId) {

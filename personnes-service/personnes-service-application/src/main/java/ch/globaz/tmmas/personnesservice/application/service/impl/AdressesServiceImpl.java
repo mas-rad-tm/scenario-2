@@ -7,13 +7,12 @@ import ch.globaz.tmmas.personnesservice.domain.event.AdresseCreeEvent;
 import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.factory.AdresseFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 import ch.globaz.tmmas.personnesservice.domain.repository.AdressesRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.LocaliteRepository;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import ch.globaz.tmmas.personnesservice.domain.service.AdressePersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +38,8 @@ public class AdressesServiceImpl implements AdressesService {
     public Adresse createAdresse(CreerAdresseCommand command, Long personneId) throws AdresseIncoherenceException {
 
 
-        PersonneMorale personneMorale = personneRepository.getPersonneById(personneId).get();
-        personneMorale.setAdresseActive(
+        PersonnePhysique personnePhysique = personneRepository.getPersonneById(personneId).get();
+        personnePhysique.setAdresseActive(
                 adressesRepository.getAdresseActiveByPersonne(personneId)
                         .orElseGet(()->{
                             return null;
@@ -48,10 +47,10 @@ public class AdressesServiceImpl implements AdressesService {
         );
 
         //création de la nouvelle adresse
-        Adresse nouvelleAdresse = AdresseFactory.create(command,personneMorale,localiteRepository);
+        Adresse nouvelleAdresse = AdresseFactory.create(command, personnePhysique,localiteRepository);
 
 
-        nouvelleAdresse = AdressePersonneService.addAdresseToPersonneMorale(personneMorale,nouvelleAdresse,
+        nouvelleAdresse = AdressePersonneService.addAdresseToPersonneMorale(personnePhysique,nouvelleAdresse,
                 adressesRepository);
 
         eventPublisher.publishEvent(AdresseCreeEvent.fromEntity(nouvelleAdresse));

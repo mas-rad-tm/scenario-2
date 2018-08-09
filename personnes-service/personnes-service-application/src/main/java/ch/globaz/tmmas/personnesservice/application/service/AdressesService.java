@@ -3,11 +3,9 @@ package ch.globaz.tmmas.personnesservice.application.service;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerAdresseCommand;
 import ch.globaz.tmmas.personnesservice.domain.exception.AdresseIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.model.Adresse;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AdressesService {
 

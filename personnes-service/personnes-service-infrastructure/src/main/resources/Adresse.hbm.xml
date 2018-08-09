@@ -27,7 +27,7 @@
         <many-to-one name="localite" column="localite_id" class="ch.globaz.tmmas.personnesservice.domain.model.Localite"
                      cascade="all" lazy="false"/>
         
-        <many-to-one name="personneMorale" class="ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale">
+        <many-to-one name="personnePhysique" class="ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique">
             <column name="personne_id" not-null="true" />
         </many-to-one>
 

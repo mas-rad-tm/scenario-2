@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @Getter()
 @EqualsAndHashCode(of = "nss")
 @ToString(exclude = "adresses")
-public class PersonneMorale implements Entity<PersonneMorale>{
+public class PersonnePhysique implements Entity<PersonnePhysique>{
 
 
 	private NSS nss;
@@ -23,7 +23,7 @@ public class PersonneMorale implements Entity<PersonneMorale>{
 	@Setter
 	private Adresse adresseActive;
 
-	public PersonneMorale(NSS nss, String nom, String prenom, ZonedDateTime dateNaissance, Sexe sexe){
+	public PersonnePhysique(NSS nss, String nom, String prenom, ZonedDateTime dateNaissance, Sexe sexe){
 		Preconditions.checkNotNull(nss,"Le nss est obligatoire");
 		Preconditions.checkNotNull(nom,"Le nom est obligatoire");
 		Preconditions.checkNotNull(prenom,"Le prenom est obligatoire");
@@ -44,7 +44,7 @@ public class PersonneMorale implements Entity<PersonneMorale>{
 
 
 	@Override
-	public boolean sameIdentityAs(PersonneMorale other) {
+	public boolean sameIdentityAs(PersonnePhysique other) {
 
 		return this.nss.equals(other.nss);
 	}
@@ -55,6 +55,6 @@ public class PersonneMorale implements Entity<PersonneMorale>{
 	}
 
 	//hibernate needs
-	PersonneMorale(){};
+	PersonnePhysique(){};
 	private Long id;
 }

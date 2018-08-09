@@ -44,5 +44,12 @@ management:
     logfile:
       enabled:                            true
 
-activemq:
-  broker-url: tcp://localhost:61616
+kafka:
+  bootstrapAddress:
+    localhost:9092
+dossierCree:
+  topic:
+    name: dossier-cree
+personneVerifie:
+  topic:
+    name: personne-verifie

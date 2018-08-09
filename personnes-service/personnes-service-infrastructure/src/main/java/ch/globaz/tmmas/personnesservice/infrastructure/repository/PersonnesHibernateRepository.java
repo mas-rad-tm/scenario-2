@@ -1,10 +1,9 @@
 package ch.globaz.tmmas.personnesservice.infrastructure.repository;
 
 import ch.globaz.tmmas.personnesservice.domain.model.NSS;
-import ch.globaz.tmmas.personnesservice.domain.model.PersonneMorale;
+import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;
 import ch.globaz.tmmas.personnesservice.domain.repository.PersonneRepository;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,73 +16,73 @@ import java.util.Optional;
 public class PersonnesHibernateRepository extends HibernateRepository implements PersonneRepository {
 
 	@Override
-	public PersonneMorale creerPersonneMorale(PersonneMorale personneMorale) {
-		getSession().saveOrUpdate(personneMorale);
-		return personneMorale;
+	public PersonnePhysique creerPersonneMorale(PersonnePhysique personnePhysique) {
+		getSession().saveOrUpdate(personnePhysique);
+		return personnePhysique;
 	}
 
 	@Override
-	public PersonneMorale synchoniser(PersonneMorale personneMorale) {
-		personneMorale = (PersonneMorale) getSession().merge(personneMorale);
-		return personneMorale;
+	public PersonnePhysique synchoniser(PersonnePhysique personnePhysique) {
+		personnePhysique = (PersonnePhysique) getSession().merge(personnePhysique);
+		return personnePhysique;
 	}
 
 	@Override
 	public Boolean personneExist(Long personneId){
 		CriteriaBuilder builder = getSession().getCriteriaBuilder();
-		CriteriaQuery<PersonneMorale> criteria = builder.createQuery(PersonneMorale.class);
-		Root<PersonneMorale> root = criteria.from(PersonneMorale.class);
+		CriteriaQuery<PersonnePhysique> criteria = builder.createQuery(PersonnePhysique.class);
+		Root<PersonnePhysique> root = criteria.from(PersonnePhysique.class);
 
 		criteria.select(root.get("id"))
 				.where(builder.equal(root.get("id"), personneId));
-		Query<PersonneMorale> q = getSession().createQuery(criteria);
+		Query<PersonnePhysique> q = getSession().createQuery(criteria);
 		return q.uniqueResult() != null;
 	}
 
 	@Override
-	public Optional<PersonneMorale> getPersonneById(Long id) {
-		PersonneMorale personneMorale =  getSession().get(PersonneMorale.class, id);
-		return Optional.ofNullable(personneMorale);
+	public Optional<PersonnePhysique> getPersonneById(Long id) {
+		PersonnePhysique personnePhysique =  getSession().get(PersonnePhysique.class, id);
+		return Optional.ofNullable(personnePhysique);
 	}
 
 	@Override
-	public PersonneMorale mettreAJour(PersonneMorale personneMorale){
+	public PersonnePhysique mettreAJour(PersonnePhysique personnePhysique){
 
 
 		//this.getSession().flush();
-		personneMorale = (PersonneMorale) this.getSession().merge(personneMorale);
-		//this.getSession().saveOrUpdate(personneMorale);
-		//this.getSession().update(personneMorale);
-		return personneMorale;
+		personnePhysique = (PersonnePhysique) this.getSession().merge(personnePhysique);
+		//this.getSession().saveOrUpdate(personnePhysique);
+		//this.getSession().update(personnePhysique);
+		return personnePhysique;
 	}
 
 	@Override
-	public Optional<PersonneMorale> getPersonneByNss(String nss) {
+	public Optional<PersonnePhysique> getPersonneByNss(String nss) {
 
 		CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
-		CriteriaQuery<PersonneMorale> criteria = builder.createQuery(PersonneMorale.class);
-		Root<PersonneMorale> root = criteria.from(PersonneMorale.class);
+		CriteriaQuery<PersonnePhysique> criteria = builder.createQuery(PersonnePhysique.class);
+		Root<PersonnePhysique> root = criteria.from(PersonnePhysique.class);
 
 		criteria.select(root).where(builder.equal(root.get("nss"), new NSS(nss)));
 
-		Query<PersonneMorale> q = getSession().createQuery(criteria);
+		Query<PersonnePhysique> q = getSession().createQuery(criteria);
 
-		List<PersonneMorale> personnes = q.getResultList();
+		List<PersonnePhysique> personnes = q.getResultList();
 
-		PersonneMorale personneMorale = null;
+		PersonnePhysique personnePhysique = null;
 
 		if(personnes.size() > 0){
-			personneMorale =q .getSingleResult();
+			personnePhysique =q .getSingleResult();
 		}
 
 
-		return Optional.ofNullable(personneMorale);
+		return Optional.ofNullable(personnePhysique);
 	}
 
 	@Override
-	public List<PersonneMorale> listerPersonnes() {
-		return getSession().createQuery("FROM " + PersonneMorale.class.getSimpleName()).list();
+	public List<PersonnePhysique> listerPersonnes() {
+		return getSession().createQuery("FROM " + PersonnePhysique.class.getSimpleName()).list();
 	}
 
 

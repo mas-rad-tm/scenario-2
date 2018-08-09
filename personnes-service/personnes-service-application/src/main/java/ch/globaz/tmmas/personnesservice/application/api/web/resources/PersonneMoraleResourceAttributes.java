@@ -32,16 +32,16 @@ public class PersonneMoraleResourceAttributes implements ResourceAttributes {
 	public PersonneMoraleResourceAttributes(){}
 
 
-	public PersonneMoraleResourceAttributes(PersonneMorale personneMorale){
+	public PersonneMoraleResourceAttributes(PersonnePhysique personnePhysique){
 
 
-		this.formattedDateNaissance = personneMorale.getDateNaissance().format(DateFormatter.DATE_FORMAT);
-		this.isoDateNaissance = personneMorale.getDateNaissance().toString();
-		this.technicalId = personneMorale.getId();
-		this.nom = personneMorale.getNom();
-		this.prenom = personneMorale.getPrenom();
-		this.sexe = personneMorale.getSexe();
-		this.nss = personneMorale.nssAsString();
+		this.formattedDateNaissance = personnePhysique.getDateNaissance().format(DateFormatter.DATE_FORMAT);
+		this.isoDateNaissance = personnePhysique.getDateNaissance().toString();
+		this.technicalId = personnePhysique.getId();
+		this.nom = personnePhysique.getNom();
+		this.prenom = personnePhysique.getPrenom();
+		this.sexe = personnePhysique.getSexe();
+		this.nss = personnePhysique.nssAsString();
 
 	}
 
