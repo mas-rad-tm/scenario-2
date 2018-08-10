@@ -4,7 +4,6 @@ import ch.globaz.tmmas.personnesservice.application.event.InternalEventPublisher
 import ch.globaz.tmmas.personnesservice.application.service.PersonneService;
 import ch.globaz.tmmas.personnesservice.domain.command.CreerPersonneMoraleCommand;
 import ch.globaz.tmmas.personnesservice.domain.event.PersonneMoraleCreeEvent;
-import ch.globaz.tmmas.personnesservice.domain.event.PersonnePhysiqueVerificationEvent;
 import ch.globaz.tmmas.personnesservice.domain.exception.PersonnesIncoherenceException;
 import ch.globaz.tmmas.personnesservice.domain.factory.PersonneMoraleFactory;
 import ch.globaz.tmmas.personnesservice.domain.model.PersonnePhysique;

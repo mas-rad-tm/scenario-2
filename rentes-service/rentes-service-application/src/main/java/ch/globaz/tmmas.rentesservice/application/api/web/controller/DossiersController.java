@@ -65,6 +65,8 @@ class DossiersController {
 
 		commandPublisher.publishCommand(command);
 
+
+
 		ResourceObject dossierResource = new DossierResourceAttributes(
 				dossierService.creerDossier(command))
 				.buildResourceObject();
@@ -74,11 +76,6 @@ class DossiersController {
 		return new ResponseEntity<>(new ResponseResource(dossierResource), putLocationHeader(dossierResource), HttpStatus.CREATED);
 
 	}
-
-
-
-
-
 
 
 	@RequestMapping(value = "/{dossierId}", method = RequestMethod.PATCH, consumes = MediaType

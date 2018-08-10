@@ -1,5 +1,6 @@
 package ch.globaz.tmmas.rentesservice.application.service.impl;
 
+import ch.globaz.tmmas.rentesservice.application.api.messaging.listener.MessagingListener;
 import ch.globaz.tmmas.rentesservice.application.api.web.controller.SSEController;
 import ch.globaz.tmmas.rentesservice.application.api.web.resources.DossierResourceAttributes;
 import ch.globaz.tmmas.rentesservice.application.event.InternalEventPublisher;
@@ -17,6 +18,8 @@ import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.DateValidationPlusRece
 import ch.globaz.tmmas.rentesservice.domain.reglesmetiers.StatusDossierCorrespond;
 import ch.globaz.tmmas.rentesservice.domain.repository.DossierRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +42,9 @@ public class DossierServiceImpl implements DossierService {
 
 	@Autowired
 	ObjectMapper mapper;
+
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DossierServiceImpl.class);
 
 
 	@Transactional
@@ -67,19 +73,47 @@ public class DossierServiceImpl implements DossierService {
 	@Override
 	public Dossier creerDossier(CreerDossierCommand command) throws IOException {
 
-			Dossier dossier = DossierFactory.create(command);
+		Dossier dossier = DossierFactory.create(command);
 
-			dossier =  repository.creerDossier(dossier);
+		dossier =  repository.creerDossier(dossier);
 
-			eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
+		eventPublisher.publishEvent(DossierCreeEvent.fromEntity(dossier));
 
-			return dossier;
+		return dossier;
 
 	}
 
+	/**
+	 * Création d'une entoté dossier
+	 * @param idDossier l'identification du dossier
+	 * @return une instance de l'entitié créé
+	 */
+	@Transactional
+	@Override
+	public Optional<Dossier> initierDossier(Long idDossier)  {
 
+		LOGGER.info("initie Dossier: {}", idDossier);
 
+		return repository.dossierById(idDossier).map(dossier -> {
+			dossier.initieDossier();
+			return Optional.of(repository.initieDossier(dossier));
 
+		}).orElseGet(Optional::empty);
+
+	}
+
+	@Transactional
+	@Override
+	public Optional<Dossier> erreurDossier(Long idDossier) {
+
+		LOGGER.info("erreur Dossier: {}", idDossier);
+
+		return repository.dossierById(idDossier).map(dossier -> {
+			dossier.erreurDossier();
+			return Optional.of(repository.erreurDossier(dossier));
+
+		}).orElseGet(Optional::empty);
+	}
 
 
 	private  Optional<DossierResourceAttributes> validerDossier(MiseAJourDossierCommand command, Long dossierId) {
@@ -151,6 +185,14 @@ public class DossierServiceImpl implements DossierService {
 				throw new RuntimeException();
 		}
 
+	}
+
+	@Transactional
+	@Override
+	public Optional<Dossier> getByIdRequerant(Long id) {
+
+
+		return repository.dossierByIdRequerant(id);
 	}
 
 

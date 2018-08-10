@@ -67,6 +67,11 @@ public class Dossier implements Entity<Dossier> {
         return new Dossier(command.getDateEnregistrement(),command.getRequerantId());
     }*/
 
+    public Dossier initieDossier(){
+        this.status = DossierStatus.INITIE;
+        return this;
+    }
+
     public Dossier validerDossier(ZonedDateTime dateValidation){
 
         this.status = DossierStatus.VALIDE;
@@ -93,5 +98,10 @@ public class Dossier implements Entity<Dossier> {
     @Override
     public boolean sameIdentityAs(Dossier dossier) {
         return this.identifiant.equals(dossier.identifiant());
+    }
+
+    public Dossier erreurDossier() {
+        this.status = DossierStatus.ERREUR;
+        return this;
     }
 }

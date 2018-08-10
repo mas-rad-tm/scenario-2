@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,6 +25,7 @@ class DomainEventListener {
     @Autowired
     private MessagingService messagingService;
 
+    @Async
     @EventListener
     void onDomainEvent(DomainEvent event) throws JsonProcessingException {
 
@@ -31,6 +33,7 @@ class DomainEventListener {
 
     }
 
+    @Async
     @EventListener
     void onDomainEvent(DossierCreeEvent event) throws JsonProcessingException {
 

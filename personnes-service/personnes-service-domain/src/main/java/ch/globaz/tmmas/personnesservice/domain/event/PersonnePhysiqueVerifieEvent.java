@@ -7,14 +7,14 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class PersonnePhysiqueVerificationEvent implements DomainEvent{
+public class PersonnePhysiqueVerifieEvent implements DomainEvent{
 
 
     private Long id;
     private Boolean exist;
 
 
-    public PersonnePhysiqueVerificationEvent(Long id, Boolean exist) {
+    public PersonnePhysiqueVerifieEvent(Long id, Boolean exist) {
         this.id = id;
         this.exist = exist;
     }

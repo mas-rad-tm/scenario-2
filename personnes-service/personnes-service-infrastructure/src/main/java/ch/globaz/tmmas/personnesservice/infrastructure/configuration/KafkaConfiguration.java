@@ -76,7 +76,7 @@ public class KafkaConfiguration {
 				bootstrapAddress);
 		props.put(
 				ConsumerConfig.GROUP_ID_CONFIG,
-				"group.1");
+				"personnes-service-group");
 		props.put(
 				ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
 				StringDeserializer.class);

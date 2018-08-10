@@ -16,8 +16,11 @@ public interface DossierRepository {
 
     Optional<Dossier> dossierById(Long dossierId);
 
+	Optional<Dossier> dossierByIdRequerant(Long requerantId);
+
 	Dossier validerDossier(Dossier dossier);
 
 	Dossier cloreDossier(Dossier dossier);
 
+	Dossier erreurDossier(Dossier dossier);
 }

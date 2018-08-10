@@ -4,7 +4,7 @@ package ch.globaz.tmmas.personnesservice.application.event;
 
 
 import ch.globaz.tmmas.personnesservice.domain.event.DomainEvent;
-import ch.globaz.tmmas.personnesservice.domain.event.PersonnePhysiqueVerificationEvent;
+import ch.globaz.tmmas.personnesservice.domain.event.PersonnePhysiqueVerifieEvent;
 import ch.globaz.tmmas.personnesservice.infrastructure.messaging.MessagingService;
 import ch.globaz.tmmas.personnesservice.infrastructure.messaging.kafka.KafkaTopics;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,7 +34,7 @@ class DomainEventListener {
     }
 
     @EventListener
-    void onDomainEvent(PersonnePhysiqueVerificationEvent event) throws JsonProcessingException {
+    void onDomainEvent(PersonnePhysiqueVerifieEvent event) throws JsonProcessingException {
 
         LOGGER.info("onPersonnePhysiqueVerificationEvent {}",event);
 

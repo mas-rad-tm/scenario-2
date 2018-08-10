@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.AbstractMessageListenerContainer;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -65,13 +66,14 @@ public class KafkaConfiguration {
 				bootstrapAddress);
 		props.put(
 				ConsumerConfig.GROUP_ID_CONFIG,
-				"group.1");
+				"rentes-service-group");
 		props.put(
 				ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
 				StringDeserializer.class);
 		props.put(
 				ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
 				StringDeserializer.class);
+		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);//disable auto commit
 		return new DefaultKafkaConsumerFactory<>(props);
 	}
 
@@ -81,6 +83,8 @@ public class KafkaConfiguration {
 				new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory());
 		factory.setMessageConverter(new StringJsonMessageConverter());
+		//ack mode manual
+		factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.MANUAL_IMMEDIATE);
 		return factory;
 	}
 
