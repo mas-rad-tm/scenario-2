@@ -10,6 +10,7 @@ Ce scénario se base sur deux services applicatifs:
 * Maven version 3.5.0
 * JDK version 1.8
 * base de données IBM DB2 (*par défaut, utilisation d'une base de données H2 embarquée*)
+* Apache Kafka : https://kafka.apache.org/
 
 ### Exécution de l'application
 #### Service rentes
