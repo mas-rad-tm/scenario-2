@@ -1,0 +1,31 @@
+// Example with a full fledged SDK Request
+const echoPostRequest = {
+  url: 'http://localhost:9010/personnes-service/personnes',
+  method: 'POST',
+  header: 'Content-Type:application/json',
+  body: {
+    mode:'raw',
+    raw: JSON.stringify({
+	"nss":"194.2542.3378.44",
+	"nom":"Chèvre2",
+	"prenom":"Sébastien2",
+	"dateNaissance":"1978-11-21T08:30Z",
+	"sexe":"MASCULIN"
+})
+  }
+};
+pm.sendRequest(echoPostRequest, function (err, res) {
+  console.log("request received")
+  
+  if(err){
+      err;
+  }else{
+      res.json();
+      pm.environment.set("personne", res.json().data.id);
+  }
+  
+  console.log(err ? err : res.json());
+  console.log(pm.environment.get("personne"));
+  
+});
+
